@@ -25,6 +25,7 @@ void Oficial::salir(){
 	estanciasTotales[numEstaciones]=estanciaActual;
 	numEstaciones++;
 	Estancia* auxiliar= new Estancia[numEstaciones+1];
+
 	for(int i=0; i<numEstaciones;i++){
 		auxiliar[i]=estanciasTotales[i];
 	}

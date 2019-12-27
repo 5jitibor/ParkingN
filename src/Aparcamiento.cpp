@@ -185,6 +185,7 @@ void Aparcamiento::registarVehiculoOficial(char *matri){
 
 		cout<<"Se ha registrado "<<listaVehiculosOficiales[numVehiculosOficiales].getMatricula()<<" como oficial"<<endl;
 		numVehiculosOficiales++;
+
 		Oficial* auxiliar= new Oficial[numVehiculosOficiales+1];
 		for(int i=0; i<numVehiculosOficiales;i++){
 			auxiliar[i]=listaVehiculosOficiales[i];
@@ -208,6 +209,7 @@ void Aparcamiento::registrarVehiculoResidente(char *matri){
 		listaVehiculosResidentes[numVehiculosResidentes].setMatricula(matri);
 		cout<<"Se ha registrado "<<listaVehiculosResidentes[numVehiculosResidentes].getMatricula()<<" como Residente"<<endl;
 		numVehiculosResidentes++;
+
 		Residente* auxiliar= new Residente[numVehiculosResidentes+1];
 		for(int i=0; i<numVehiculosResidentes;i++){
 			auxiliar[i]=listaVehiculosResidentes[i];
