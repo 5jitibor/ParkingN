@@ -79,6 +79,7 @@ void Aparcamiento::generarDocumentos(){
 
 		}
 	}
+	fsb.close();
 }
 
 char* Aparcamiento::pedirMatricula(){
