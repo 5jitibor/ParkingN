@@ -46,15 +46,39 @@ Aparcamiento::Aparcamiento(const Aparcamiento &other) {
 }
 
 void Aparcamiento::generarDocumentos(){
-	ofstream fs("Residente.txt");
-	fs<<numVehiculosResidentes<<endl;
+	ofstream fsa("Residente.txt");
+	fsa<<numVehiculosResidentes<<endl;
 	for(int i=0;i<numVehiculosResidentes;i++){
-		fs<<listaVehiculosResidentes[i].getMatricula()<<endl;
-		fs<<listaVehiculosResidentes[i].getTiempoTotal()<<endl;
-		fs<<listaVehiculosResidentes[i].getEstanciaActual().getInicio().getHora()<<endl;
-		fs<<listaVehiculosResidentes[i].getEstanciaActual().getInicio().getMinuto()<<endl;
+		fsa<<listaVehiculosResidentes[i].getMatricula()<<endl;
+		fsa<<listaVehiculosResidentes[i].getTiempoTotal()<<endl;
+	}
+	fsa.close();
+
+	ofstream fs("Oficial.txt");
+	fs<<numVehiculosOficiales<<endl;
+	for(int i=0;i<numVehiculosOficiales;i++){
+		fs<<listaVehiculosOficiales[i].getMatricula()<<endl;
+		fs<<listaVehiculosOficiales[i].getNumEstaciones()<<endl;
+		for(int j=0; j<listaVehiculosOficiales[i].getNumEstaciones(); j++){
+			fs<<listaVehiculosOficiales[i].getEstanciasTotales()[i].getInicio().getHora()<<endl;
+			fs<<listaVehiculosOficiales[i].getEstanciasTotales()[i].getInicio().getMinuto()<<endl;
+			fs<<listaVehiculosOficiales[i].getEstanciasTotales()[i].getFin().getHora()<<endl;
+			fs<<listaVehiculosOficiales[i].getEstanciasTotales()[i].getFin().getMinuto()<<endl;
+
+		}
 	}
 	fs.close();
+	ofstream fsb("Parking.txt");
+	fsb<<plazasTotales<<endl;
+	fsb<<plazasOcupadas<<endl;
+	for(int i=0;i<plazasTotales;i++){
+		if(parking[i]!=NULL){
+			fsb<<(*parking[i]).getMatricula()<<endl;
+			fsb<<(*parking[i]).getEstanciaActual().getInicio().getHora()<<endl;
+			fsb<<(*parking[i]).getEstanciaActual().getInicio().getMinuto()<<endl;
+
+		}
+	}
 }
 
 char* Aparcamiento::pedirMatricula(){
@@ -90,6 +114,7 @@ void Aparcamiento::menuPrincipal(){
 
 	}while(terminar);
 	generarDocumentos();
+
 	cout<<"Adios";
 }
 
