@@ -11,8 +11,8 @@ Aparcamiento::Aparcamiento(int tamParking) {
 	// TODO Auto-generated constructor stub
 	plazasOcupadas=0;
 	plazasTotales=tamParking;
-	listaVehiculosOficiales=new Oficial[100];
-	listaVehiculosResidentes=new Residente[100];
+	listaVehiculosOficiales=new Oficial[1];
+	listaVehiculosResidentes=new Residente[1];
 	parking=new Vehiculo*[plazasTotales];
 	for(int i=0;i<plazasTotales;i++){
 		parking[i]=NULL;
@@ -182,8 +182,14 @@ void Aparcamiento::registarVehiculoOficial(char *matri){
 	}
 	else{
 		listaVehiculosOficiales[numVehiculosOficiales].setMatricula(matri);
+
 		cout<<"Se ha registrado "<<listaVehiculosOficiales[numVehiculosOficiales].getMatricula()<<" como oficial"<<endl;
 		numVehiculosOficiales++;
+		Oficial* auxiliar= new Oficial[numVehiculosOficiales+1];
+		for(int i=0; i<numVehiculosOficiales;i++){
+			auxiliar[i]=listaVehiculosOficiales[i];
+		}
+		listaVehiculosOficiales=auxiliar;
 	}
 
 
@@ -202,6 +208,11 @@ void Aparcamiento::registrarVehiculoResidente(char *matri){
 		listaVehiculosResidentes[numVehiculosResidentes].setMatricula(matri);
 		cout<<"Se ha registrado "<<listaVehiculosResidentes[numVehiculosResidentes].getMatricula()<<" como Residente"<<endl;
 		numVehiculosResidentes++;
+		Residente* auxiliar= new Residente[numVehiculosResidentes+1];
+		for(int i=0; i<numVehiculosResidentes;i++){
+			auxiliar[i]=listaVehiculosResidentes[i];
+		}
+		listaVehiculosResidentes=auxiliar;
 	}
 
 }

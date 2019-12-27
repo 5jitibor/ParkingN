@@ -24,6 +24,11 @@ void Oficial::salir(){
 	estanciaActual.pararTiempo();
 	estanciasTotales[numEstaciones]=estanciaActual;
 	numEstaciones++;
+	Estancia* auxiliar= new Estancia[numEstaciones+1];
+	for(int i=0; i<numEstaciones;i++){
+		auxiliar[i]=estanciasTotales[i];
+	}
+	estanciasTotales=auxiliar;
 }
 
 void Oficial::finDeMes(){
@@ -35,7 +40,7 @@ void Oficial::finDeMes(){
 			cout<<"\tSalida:\n\t\tHora: "<<estanciasTotales[i].getFin().getHora()<<"\n\t\tMinuto: "<<estanciasTotales[i].getFin().getMinuto()<<endl;
 		}
 		delete estanciasTotales;
-		estanciasTotales= new Estancia[100];
+		estanciasTotales= new Estancia[1];
 		numEstaciones=0;
 		cout<<"Se ha eliminado correctamente todos las estancias"<<endl;
 		system("pause");
