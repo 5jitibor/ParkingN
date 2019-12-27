@@ -45,6 +45,18 @@ Aparcamiento::Aparcamiento(const Aparcamiento &other) {
 
 }
 
+void Aparcamiento::generarDocumentos(){
+	ofstream fs("Residente.txt");
+	fs<<numVehiculosResidentes<<endl;
+	for(int i=0;i<numVehiculosResidentes;i++){
+		fs<<listaVehiculosResidentes[i].getMatricula()<<endl;
+		fs<<listaVehiculosResidentes[i].getTiempoTotal()<<endl;
+		fs<<listaVehiculosResidentes[i].getEstanciaActual().getInicio().getHora()<<endl;
+		fs<<listaVehiculosResidentes[i].getEstanciaActual().getInicio().getMinuto()<<endl;
+	}
+	fs.close();
+}
+
 char* Aparcamiento::pedirMatricula(){
 	char* nombre;
 	char nombres[200];
@@ -77,6 +89,7 @@ void Aparcamiento::menuPrincipal(){
 		}
 
 	}while(terminar);
+	generarDocumentos();
 	cout<<"Adios";
 }
 

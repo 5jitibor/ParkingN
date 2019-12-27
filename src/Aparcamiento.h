@@ -38,6 +38,7 @@ public:
 	void generarInforme(char*);
 	void entrarVehiculo(char*);
 	void salirVehiculo(char *);
+	void generarDocumentos();
 	void finDeMes();
 	int comprobarListaResidente(char*);
 	int comprobarListaOficial(char*);
