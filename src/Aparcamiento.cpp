@@ -42,7 +42,6 @@ Aparcamiento::Aparcamiento(const Aparcamiento &other) {
 			listaVehiculosResidentes[i]=other.listaVehiculosResidentes[i];
 		}
 
-
 }
 
 char* Aparcamiento::pedirMatricula(){
