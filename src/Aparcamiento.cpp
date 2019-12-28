@@ -43,6 +43,113 @@ Aparcamiento::Aparcamiento(const Aparcamiento &other) {
 		}
 
 
+
+}
+
+void Aparcamiento::introducirDocumentos(){
+	int auxNum;
+	char aux[100];
+	char* matri;
+	Estancia auxEst;
+	Estancia* auxListaEst;
+	Fecha auxFecha;
+	ifstream fer("Residente.txt");
+	if(fer.good()){
+
+		fer>>numVehiculosResidentes;
+		//delete listaVehiculosResidentes;
+		//listaVehiculosResidentes = new Residente[numVehiculosResidentes+1];
+		for(int i=0;i<numVehiculosResidentes;i++){
+			fer>> aux;
+			matri= new char(strlen(aux)+1);
+			for(int j=0; j<=(int)strlen(aux);j++){
+				matri[j]=aux[j];
+			}
+			listaVehiculosResidentes[i].setMatricula(matri);
+			fer>> auxNum;
+			listaVehiculosResidentes[i].setTiempoTotal(auxNum);
+		}
+	}
+	else{
+		cout<<"No existe el fichero de residente"<<endl;
+	}
+	fer.close();
+
+	ifstream feo("Oficial.txt");
+	if(feo.good()){
+		feo>>numVehiculosOficiales;
+		//delete listaVehiculosOficiales;
+		//listaVehiculosOficiales = new Oficial[numVehiculosOficiales+1];
+		for(int i=0;i<numVehiculosOficiales;i++){
+					feo>> aux;
+					matri= new char(strlen(aux)+1);
+					for(int j=0; j<=(int)strlen(aux);j++){
+						matri[j]=aux[j];
+					}
+					listaVehiculosOficiales[i].setMatricula(matri);
+					feo>> auxNum;
+					listaVehiculosOficiales[i].setNumEstaciones(auxNum);
+					delete auxListaEst;
+					//auxListaEst= new Estancia[listaVehiculosOficiales[i].getNumEstaciones();];
+					auxListaEst= new Estancia[100];
+					for(int j=0;j<listaVehiculosOficiales[i].getNumEstaciones();j++){
+						feo>>auxNum;
+						auxFecha.setHora(auxNum);
+						feo>>auxNum;
+						auxFecha.setMinuto(auxNum);
+						auxListaEst[j].setInicio(auxFecha);
+						feo>>auxNum;
+						auxFecha.setHora(auxNum);
+						feo>>auxNum;
+						auxFecha.setMinuto(auxNum);
+						auxListaEst[j].setFin(auxFecha);
+					}
+					listaVehiculosOficiales[i].setEstanciasTotales(auxListaEst);
+		}
+	}
+	else{
+		cout<<"No existe el fichero de oficial"<<endl;
+	}
+	feo.close();
+	ifstream fep("Parking.txt");
+	if(fep.good()){
+		fep>>plazasTotales;
+		delete parking;
+		parking= new Vehiculo*[plazasTotales];
+		for(int i=0;i<plazasTotales;i++){
+				parking[i]=NULL;
+		}
+		fep>>plazasOcupadas;
+		for(int i=0;i<plazasOcupadas;i++){
+			fep>> aux;
+			matri= new char(strlen(aux)+1);
+			for(int j=0; j<=(int)strlen(aux);j++){
+				matri[j]=aux[j];
+			}
+			fep>>auxNum;
+			if(comprobarListaResidente(matri)>-1){
+				parking[auxNum]=&listaVehiculosResidentes[comprobarListaResidente(matri)];
+			}
+			else if(comprobarListaOficial(matri)>-1){
+				parking[auxNum]=&listaVehiculosOficiales[comprobarListaOficial(matri)];
+			}
+			else{
+				NoResidente *auxNo= new NoResidente(matri);
+				parking[auxNum]= auxNo;
+			}
+			fep>>auxNum;
+			auxFecha.setHora(auxNum);
+			fep>>auxNum;
+			auxFecha.setHora(auxNum);
+			auxEst.setInicio(auxFecha);
+			(*parking[comprobarListaParking(matri)]).setEstanciaActual(auxEst);
+		}
+	}
+	else{
+		cout<<"No existe el fichero de parking"<<endl;
+	}
+	fep.close();
+
 }
 
 void Aparcamiento::generarDocumentos(){
@@ -74,6 +181,7 @@ void Aparcamiento::generarDocumentos(){
 	for(int i=0;i<plazasTotales;i++){
 		if(parking[i]!=NULL){
 			fsb<<(*parking[i]).getMatricula()<<endl;
+			fsb<<i<<endl;
 			fsb<<(*parking[i]).getEstanciaActual().getInicio().getHora()<<endl;
 			fsb<<(*parking[i]).getEstanciaActual().getInicio().getMinuto()<<endl;
 
@@ -94,6 +202,7 @@ char* Aparcamiento::pedirMatricula(){
 	return nombre;
 }
 void Aparcamiento::menuPrincipal(){
+	introducirDocumentos();
 	bool terminar=true;
 	char elecciones;
 	do{

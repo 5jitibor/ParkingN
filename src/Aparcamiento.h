@@ -32,6 +32,7 @@ public:
 	Aparcamiento(int tamParking=30);
 	virtual ~Aparcamiento();
 	Aparcamiento(const Aparcamiento &other);
+	void introducirDocumentos();
 	void registarVehiculoOficial(char*);
 	void registrarVehiculoResidente(char*);
 	void identificarMatricula(char*);
