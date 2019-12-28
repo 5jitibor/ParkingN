@@ -149,9 +149,6 @@ void Aparcamiento::entrarVehiculo(char* mat){
 void Aparcamiento::salirVehiculo(char* mat){
 	if(comprobarListaParking(mat)>-1){
 		parking[comprobarListaParking(mat)]->salir();
-		if(comprobarListaResidente(mat)==-1 && comprobarListaOficial(mat) ==-1){
-			delete parking[comprobarListaParking(mat)];
-		}
 		parking[comprobarListaParking(mat)]=NULL;
 		cout<<"Ha salido el vehiculo "<<mat<<endl;
 		if(plazasOcupadas+1 == plazasTotales){
