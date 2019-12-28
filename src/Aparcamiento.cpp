@@ -33,17 +33,44 @@ Aparcamiento::Aparcamiento(const Aparcamiento &other) {
 	estadoActualParking = other.estadoActualParking;
 	numVehiculosResidentes=other.numVehiculosOficiales;
 	numVehiculosOficiales=other.numVehiculosResidentes;
-	listaVehiculosOficiales= new Oficial[100];
+	listaVehiculosOficiales= new Oficial[numVehiculosOficiales+1];
 	for(int i=0;i<numVehiculosOficiales;i++){
 		listaVehiculosOficiales[i]=other.listaVehiculosOficiales[i];
 	}
-	listaVehiculosResidentes= new Residente[100];
+	listaVehiculosResidentes= new Residente[numVehiculosResidentes+1];
 		for(int i=0;i<(numVehiculosResidentes);i++){
 			listaVehiculosResidentes[i]=other.listaVehiculosResidentes[i];
 		}
 
 
 }
+
+Aparcamiento& Aparcamiento::operator =(Aparcamiento& other){
+	plazasOcupadas=other.plazasOcupadas;
+	plazasTotales=other.plazasTotales;
+	delete parking;
+	parking=new Vehiculo*[plazasTotales];
+	for(int i=0;i<plazasTotales;i++){
+			parking[i]=other.parking[i];
+		}
+	estadoActualParking = other.estadoActualParking;
+	numVehiculosResidentes=other.numVehiculosOficiales;
+	numVehiculosOficiales=other.numVehiculosResidentes;
+	delete listaVehiculosOficiales;
+	listaVehiculosOficiales= new Oficial[numVehiculosOficiales+1];
+	for(int i=0;i<numVehiculosOficiales;i++){
+		listaVehiculosOficiales[i]=other.listaVehiculosOficiales[i];
+	}
+	delete listaVehiculosResidentes;
+	listaVehiculosResidentes= new Residente[numVehiculosResidentes+1];
+		for(int i=0;i<(numVehiculosResidentes);i++){
+			listaVehiculosResidentes[i]=other.listaVehiculosResidentes[i];
+		}
+
+	return *this;
+}
+
+
 
 char* Aparcamiento::pedirMatricula(){
 	char* nombre;
