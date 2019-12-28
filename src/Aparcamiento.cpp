@@ -301,7 +301,7 @@ void Aparcamiento::entrarVehiculo(char* mat){
 			}
 			parking[comprobarListaParking(mat)]->entrar();
 			plazasOcupadas++;
-			if(plazasOcupadas+1 == plazasTotales){
+			if(plazasOcupadas == plazasTotales){
 				estadoActualParking= completo;
 			}
 		}
@@ -321,7 +321,7 @@ void Aparcamiento::salirVehiculo(char* mat){
 		parking[comprobarListaParking(mat)]->salir();
 		parking[comprobarListaParking(mat)]=NULL;
 		cout<<"Ha salido el vehiculo "<<mat<<endl;
-		if(plazasOcupadas+1 == plazasTotales){
+		if(plazasOcupadas == plazasTotales){
 			estadoActualParking= libre;
 		}
 		plazasOcupadas--;
