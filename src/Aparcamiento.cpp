@@ -57,8 +57,8 @@ void Aparcamiento::introducirDocumentos(){
 	if(fer.good()){
 
 		fer>>numVehiculosResidentes;
-		//delete listaVehiculosResidentes;
-		//listaVehiculosResidentes = new Residente[numVehiculosResidentes+1];
+		delete listaVehiculosResidentes;
+		listaVehiculosResidentes = new Residente[numVehiculosResidentes+1];
 		for(int i=0;i<numVehiculosResidentes;i++){
 			fer>> aux;
 			matri= new char(strlen(aux)+1);
@@ -78,8 +78,8 @@ void Aparcamiento::introducirDocumentos(){
 	ifstream feo("Oficial.txt");
 	if(feo.good()){
 		feo>>numVehiculosOficiales;
-		//delete listaVehiculosOficiales;
-		//listaVehiculosOficiales = new Oficial[numVehiculosOficiales+1];
+		delete listaVehiculosOficiales;
+		listaVehiculosOficiales = new Oficial[numVehiculosOficiales+1];
 		for(int i=0;i<numVehiculosOficiales;i++){
 					feo>> aux;
 					matri= new char(strlen(aux)+1);
@@ -90,8 +90,7 @@ void Aparcamiento::introducirDocumentos(){
 					feo>> auxNum;
 					listaVehiculosOficiales[i].setNumEstaciones(auxNum);
 					delete auxListaEst;
-					//auxListaEst= new Estancia[listaVehiculosOficiales[i].getNumEstaciones();];
-					auxListaEst= new Estancia[100];
+					auxListaEst= new Estancia[listaVehiculosOficiales[i].getNumEstaciones()];
 					for(int j=0;j<listaVehiculosOficiales[i].getNumEstaciones();j++){
 						feo>>auxNum;
 						auxFecha.setHora(auxNum);
@@ -297,9 +296,9 @@ void Aparcamiento::entrarVehiculo(char* mat){
 void Aparcamiento::salirVehiculo(char* mat){
 	if(comprobarListaParking(mat)>-1){
 		parking[comprobarListaParking(mat)]->salir();
-		if(comprobarListaResidente(mat)==-1 && comprobarListaOficial(mat) ==-1){
+		/*if(comprobarListaResidente(mat)==-1 && comprobarListaOficial(mat) ==-1){
 			delete parking[comprobarListaParking(mat)];
-		}
+		}*/
 		parking[comprobarListaParking(mat)]=NULL;
 		cout<<"Ha salido el vehiculo "<<mat<<endl;
 		if(plazasOcupadas+1 == plazasTotales){
