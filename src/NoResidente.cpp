@@ -43,8 +43,6 @@ void NoResidente::salir(){
 	cantidad*=precio;
 	cout<<"Tienes que pagar "<<cantidad<<endl;
 	system("pause");
-	delete (this);
-
 }
 
 NoResidente::~NoResidente() {

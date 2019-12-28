@@ -116,7 +116,6 @@ void Aparcamiento::identificarMatricula(char* mat){
 void Aparcamiento::entrarVehiculo(char* mat){
 	if(estadoActualParking==libre){
 		if(comprobarListaParking(mat)==-1){
-			cout<<"encuentra"<<endl;
 			if(comprobarListaResidente(mat)>-1){
 				parking[buscarSitio()]=&listaVehiculosResidentes[comprobarListaResidente(mat)];
 				cout<<"Ha entrado el vehiculo Residente con la matricula "<<mat<<endl;
@@ -150,6 +149,9 @@ void Aparcamiento::entrarVehiculo(char* mat){
 void Aparcamiento::salirVehiculo(char* mat){
 	if(comprobarListaParking(mat)>-1){
 		parking[comprobarListaParking(mat)]->salir();
+		if(comprobarListaResidente(mat)==-1 && comprobarListaOficial(mat) ==-1){
+			delete parking[comprobarListaParking(mat)];
+		}
 		parking[comprobarListaParking(mat)]=NULL;
 		cout<<"Ha salido el vehiculo "<<mat<<endl;
 		if(plazasOcupadas+1 == plazasTotales){
