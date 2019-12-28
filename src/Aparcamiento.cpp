@@ -11,8 +11,8 @@ Aparcamiento::Aparcamiento(int tamParking) {
 	// TODO Auto-generated constructor stub
 	plazasOcupadas=0;
 	plazasTotales=tamParking;
-	listaVehiculosOficiales=new Oficial[100];
-	listaVehiculosResidentes=new Residente[100];
+	listaVehiculosOficiales=new Oficial[1];
+	listaVehiculosResidentes=new Residente[1];
 	parking=new Vehiculo*[plazasTotales];
 	for(int i=0;i<plazasTotales;i++){
 		parking[i]=NULL;
@@ -264,7 +264,6 @@ void Aparcamiento::identificarMatricula(char* mat){
 void Aparcamiento::entrarVehiculo(char* mat){
 	if(estadoActualParking==libre){
 		if(comprobarListaParking(mat)==-1){
-			cout<<"encuentra"<<endl;
 			if(comprobarListaResidente(mat)>-1){
 				parking[buscarSitio()]=&listaVehiculosResidentes[comprobarListaResidente(mat)];
 				cout<<"Ha entrado el vehiculo Residente con la matricula "<<mat<<endl;
@@ -298,6 +297,9 @@ void Aparcamiento::entrarVehiculo(char* mat){
 void Aparcamiento::salirVehiculo(char* mat){
 	if(comprobarListaParking(mat)>-1){
 		parking[comprobarListaParking(mat)]->salir();
+		if(comprobarListaResidente(mat)==-1 && comprobarListaOficial(mat) ==-1){
+			delete parking[comprobarListaParking(mat)];
+		}
 		parking[comprobarListaParking(mat)]=NULL;
 		cout<<"Ha salido el vehiculo "<<mat<<endl;
 		if(plazasOcupadas+1 == plazasTotales){
@@ -330,8 +332,15 @@ void Aparcamiento::registarVehiculoOficial(char *matri){
 	}
 	else{
 		listaVehiculosOficiales[numVehiculosOficiales].setMatricula(matri);
+
 		cout<<"Se ha registrado "<<listaVehiculosOficiales[numVehiculosOficiales].getMatricula()<<" como oficial"<<endl;
 		numVehiculosOficiales++;
+
+		Oficial* auxiliar= new Oficial[numVehiculosOficiales+1];
+		for(int i=0; i<numVehiculosOficiales;i++){
+			auxiliar[i]=listaVehiculosOficiales[i];
+		}
+		listaVehiculosOficiales=auxiliar;
 	}
 
 
@@ -350,6 +359,12 @@ void Aparcamiento::registrarVehiculoResidente(char *matri){
 		listaVehiculosResidentes[numVehiculosResidentes].setMatricula(matri);
 		cout<<"Se ha registrado "<<listaVehiculosResidentes[numVehiculosResidentes].getMatricula()<<" como Residente"<<endl;
 		numVehiculosResidentes++;
+
+		Residente* auxiliar= new Residente[numVehiculosResidentes+1];
+		for(int i=0; i<numVehiculosResidentes;i++){
+			auxiliar[i]=listaVehiculosResidentes[i];
+		}
+		listaVehiculosResidentes=auxiliar;
 	}
 
 }
