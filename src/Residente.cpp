@@ -50,12 +50,13 @@ void Residente::generarInforme(){
 	for(int i=0;i<=(int)strlen(aux);i++){
 		nombrefichero[i+strlen(matricula)]=aux[i];
 	}
-	ofstream fs(nombrefichero);
-	fs<<"Informe del vehiculo residente "<<endl;
-	fs<<"Matricula: "<<matricula<<endl;
-	fs<<"Minutos este mes: "<<tiempoTotal<<" minutos"<<endl;
-	fs<<"Tiene que pagar: "<<tiempoTotal*precio<<" euros"<<endl;
-	fs.close();
+	ofstream fsr(nombrefichero);
+	fsr<<"Informe del vehiculo residente"<<endl;
+	fsr<<"Matricula: "<<matricula<<endl;
+	fsr<<"Minutos este mes: "<<tiempoTotal<<" minutos"<<endl;
+	fsr<<"Tiene que pagar: "<<tiempoTotal*precio<<" euros"<<endl;
+	fsr.close();
+	//cout<<"Se ha generado correctamente el documento"<<endl;
 }
 
 void Residente::finDeMes(){
