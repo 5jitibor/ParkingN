@@ -21,6 +21,22 @@ public:
 	Oficial(const Oficial &other);
 	virtual ~Oficial();
 	Oficial& operator =(Oficial&);
+
+	const Estancia* getEstanciasTotales() const {
+		return estanciasTotales;
+	}
+
+	void setEstanciasTotales(Estancia *estanciasTotal) {
+		this->estanciasTotales = estanciasTotal;
+	}
+
+	int getNumEstaciones() const {
+		return numEstaciones;
+	}
+
+	void setNumEstaciones(int numEstaciones) {
+		this->numEstaciones = numEstaciones;
+	}
 };
 
 #endif /* OFICIAL_H_ */

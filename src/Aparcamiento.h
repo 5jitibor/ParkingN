@@ -33,12 +33,14 @@ public:
 	virtual ~Aparcamiento();
 	Aparcamiento(const Aparcamiento &other);
 	Aparcamiento& operator=(Aparcamiento &other);
+	void introducirDocumentos();
 	void registarVehiculoOficial(char*);
 	void registrarVehiculoResidente(char*);
 	void identificarMatricula(char*);
 	void generarInforme(char*);
 	void entrarVehiculo(char*);
 	void salirVehiculo(char *);
+	void generarDocumentos();
 	void finDeMes();
 	int comprobarListaResidente(char*);
 	int comprobarListaOficial(char*);
