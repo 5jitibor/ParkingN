@@ -76,102 +76,115 @@ void Aparcamiento::introducirDocumentos(){
 	Estancia auxEst;
 	Estancia* auxListaEst;
 	Fecha auxFecha;
-	ifstream fer("Residente.txt");
-	if(fer.good()){
+	try{
 
-		fer>>numVehiculosResidentes;
-		delete listaVehiculosResidentes;
-		listaVehiculosResidentes = new Residente[numVehiculosResidentes+1];
-		for(int i=0;i<numVehiculosResidentes;i++){
-			fer>> aux;
-			matri= new char(strlen(aux)+1);
-			for(int j=0; j<=(int)strlen(aux);j++){
-				matri[j]=aux[j];
-			}
-			listaVehiculosResidentes[i].setMatricula(matri);
-			fer>> auxNum;
-			listaVehiculosResidentes[i].setTiempoTotal(auxNum);
-		}
-	}
-	else{
-		cout<<"No existe el fichero de residente"<<endl;
-	}
-	fer.close();
+		ifstream fer("Residente.txt");
+		if(fer.good()){
 
-	ifstream feo("Oficial.txt");
-	if(feo.good()){
-		feo>>numVehiculosOficiales;
-		delete listaVehiculosOficiales;
-		listaVehiculosOficiales = new Oficial[numVehiculosOficiales+1];
-		for(int i=0;i<numVehiculosOficiales;i++){
-					feo>> aux;
-					matri= new char(strlen(aux)+1);
-					for(int j=0; j<=(int)strlen(aux);j++){
-						matri[j]=aux[j];
-					}
-					listaVehiculosOficiales[i].setMatricula(matri);
-					feo>> auxNum;
-					listaVehiculosOficiales[i].setNumEstaciones(auxNum);
-					delete auxListaEst;
-					auxListaEst= new Estancia[listaVehiculosOficiales[i].getNumEstaciones()];
-					for(int j=0;j<listaVehiculosOficiales[i].getNumEstaciones();j++){
-						feo>>auxNum;
-						auxFecha.setHora(auxNum);
-						feo>>auxNum;
-						auxFecha.setMinuto(auxNum);
-						auxListaEst[j].setInicio(auxFecha);
-						feo>>auxNum;
-						auxFecha.setHora(auxNum);
-						feo>>auxNum;
-						auxFecha.setMinuto(auxNum);
-						auxListaEst[j].setFin(auxFecha);
-					}
-					listaVehiculosOficiales[i].setEstanciasTotales(auxListaEst);
+			fer>>numVehiculosResidentes;
+			delete listaVehiculosResidentes;
+			listaVehiculosResidentes = new Residente[numVehiculosResidentes+1];
+			for(int i=0;i<numVehiculosResidentes;i++){
+				fer>> aux;
+				matri= new char(strlen(aux)+1);
+				for(int j=0; j<=(int)strlen(aux);j++){
+					matri[j]=aux[j];
+				}
+				listaVehiculosResidentes[i].setMatricula(matri);
+				fer>> auxNum;
+				listaVehiculosResidentes[i].setTiempoTotal(auxNum);
+			}
 		}
-	}
-	else{
-		cout<<"No existe el fichero de oficial"<<endl;
-	}
-	feo.close();
-	ifstream fep("Parking.txt");
-	if(fep.good()){
-		fep>>plazasTotales;
-		delete parking;
-		parking= new Vehiculo*[plazasTotales];
-		for(int i=0;i<plazasTotales;i++){
-				parking[i]=NULL;
+		else{
+			throw ExcepcionNoExisteFichero();
 		}
-		fep>>plazasOcupadas;
-		for(int i=0;i<plazasOcupadas;i++){
-			fep>> aux;
-			matri= new char(strlen(aux)+1);
-			for(int j=0; j<=(int)strlen(aux);j++){
-				matri[j]=aux[j];
-			}
-			fep>>auxNum;
-			if(comprobarListaResidente(matri)>-1){
-				parking[auxNum]=&listaVehiculosResidentes[comprobarListaResidente(matri)];
-			}
-			else if(comprobarListaOficial(matri)>-1){
-				parking[auxNum]=&listaVehiculosOficiales[comprobarListaOficial(matri)];
-			}
-			else{
-				NoResidente *auxNo= new NoResidente(matri);
-				parking[auxNum]= auxNo;
-			}
-			fep>>auxNum;
-			auxFecha.setHora(auxNum);
-			fep>>auxNum;
-			auxFecha.setHora(auxNum);
-			auxEst.setInicio(auxFecha);
-			(*parking[comprobarListaParking(matri)]).setEstanciaActual(auxEst);
-		}
+		fer.close();
+	}catch(ExcepcionNoExisteFichero& ed){
+			cout<< ed.what();
 	}
-	else{
-		cout<<"No existe el fichero de parking"<<endl;
-	}
-	fep.close();
 
+	try{
+		ifstream feo("Oficial.txt");
+		if(feo.good()){
+			feo>>numVehiculosOficiales;
+			delete listaVehiculosOficiales;
+			listaVehiculosOficiales = new Oficial[numVehiculosOficiales+1];
+			for(int i=0;i<numVehiculosOficiales;i++){
+						feo>> aux;
+						matri= new char(strlen(aux)+1);
+						for(int j=0; j<=(int)strlen(aux);j++){
+							matri[j]=aux[j];
+						}
+						listaVehiculosOficiales[i].setMatricula(matri);
+						feo>> auxNum;
+						listaVehiculosOficiales[i].setNumEstaciones(auxNum);
+						delete auxListaEst;
+						auxListaEst= new Estancia[listaVehiculosOficiales[i].getNumEstaciones()];
+						for(int j=0;j<listaVehiculosOficiales[i].getNumEstaciones();j++){
+							feo>>auxNum;
+							auxFecha.setHora(auxNum);
+							feo>>auxNum;
+							auxFecha.setMinuto(auxNum);
+							auxListaEst[j].setInicio(auxFecha);
+							feo>>auxNum;
+							auxFecha.setHora(auxNum);
+							feo>>auxNum;
+							auxFecha.setMinuto(auxNum);
+							auxListaEst[j].setFin(auxFecha);
+						}
+						listaVehiculosOficiales[i].setEstanciasTotales(auxListaEst);
+			}
+		}
+		else{
+			throw ExcepcionNoExisteFichero();
+		}
+		feo.close();
+
+	}catch(ExcepcionNoExisteFichero& ed){
+			cout<< ed.what();
+	}
+	try{
+		ifstream fep("Parking.txt");
+		if(fep.good()){
+			fep>>plazasTotales;
+			delete parking;
+			parking= new Vehiculo*[plazasTotales];
+			for(int i=0;i<plazasTotales;i++){
+					parking[i]=NULL;
+			}
+			fep>>plazasOcupadas;
+			for(int i=0;i<plazasOcupadas;i++){
+				fep>> aux;
+				matri= new char(strlen(aux)+1);
+				for(int j=0; j<=(int)strlen(aux);j++){
+					matri[j]=aux[j];
+				}
+				fep>>auxNum;
+				if(comprobarListaResidente(matri)>-1){
+					parking[auxNum]=&listaVehiculosResidentes[comprobarListaResidente(matri)];
+				}
+				else if(comprobarListaOficial(matri)>-1){
+					parking[auxNum]=&listaVehiculosOficiales[comprobarListaOficial(matri)];
+				}
+				else{
+					NoResidente *auxNo= new NoResidente(matri);
+					parking[auxNum]= auxNo;
+				}
+				fep>>auxNum;
+				auxFecha.setHora(auxNum);
+				fep>>auxNum;
+				auxFecha.setHora(auxNum);
+				auxEst.setInicio(auxFecha);
+				(*parking[comprobarListaParking(matri)]).setEstanciaActual(auxEst);
+			}
+		}
+		else{
+			throw ExcepcionNoExisteFichero();
+		}
+		fep.close();
+	}catch(ExcepcionNoExisteFichero& ed){
+			cout<< ed.what();
+		}
 }
 
 void Aparcamiento::generarDocumentos(){
@@ -221,6 +234,7 @@ char* Aparcamiento::pedirMatricula(){
 	for(int i=0;i<=(int)strlen(nombres);i++){
 		nombre[i]=nombres[i];
 	}
+	cout<<endl;
 	return nombre;
 }
 void Aparcamiento::menuPrincipal(){
@@ -230,20 +244,24 @@ void Aparcamiento::menuPrincipal(){
 	do{
 		cout<<"Que quieres hacer:\n1-Identificar Vehiculo\n2-Fin de mes\n3-Cerrar\nOpcion:";
 		cin>>elecciones;
-		switch(elecciones){
-			case '1':
-				identificarMatricula(pedirMatricula());
-				break;
-			case '2':
-				finDeMes();
-				break;
-			case '3':
-				terminar=false;
-				break;
-			default:
-				cout<<"No hay accion en esa posicion"<<endl;
-		}
-
+		cout<<"\n";
+		try{
+			switch(elecciones){
+				case '1':
+					identificarMatricula(pedirMatricula());
+					break;
+				case '2':
+					finDeMes();
+					break;
+				case '3':
+					terminar=false;
+					break;
+				default:
+					throw ExcepcionDatoNoValido();
+					}
+			}catch(ExcepcionDatoNoValido& ed){
+				cout<< ed.what();
+			}
 	}while(terminar);
 	generarDocumentos();
 
@@ -257,79 +275,93 @@ void Aparcamiento::identificarMatricula(char* mat){
 	do{
 		cout<<"Que quieres hacer con el vehiculo "<<mat<<endl<<"1-Registrar Vehiculo Oficial\n2-Registrar Vehiculo Residente\n3-Entrar\n4-Salir\n5-Generar Informe\n6-Cerrar\nOpcion: ";
 		cin>>eleccionar;
-		switch(eleccionar){
-					case '1':
-						registarVehiculoOficial(mat);
-						break;
-					case '2':
-						registrarVehiculoResidente(mat);
-						break;
-					case '3':
-						entrarVehiculo(mat);
-						break;
-					case '4':
-						salirVehiculo(mat);
-						break;
-					case '5':
-						generarInforme(mat);
-						break;
-					case '6':
-						terminar=false;
-						break;
-					default:
-						cout<<"No hay accion en esa posicion"<<endl;
+		cout<<endl;
+		try{
+			switch(eleccionar){
+						case '1':
+							registarVehiculoOficial(mat);
+							break;
+						case '2':
+							registrarVehiculoResidente(mat);
+							break;
+						case '3':
+							entrarVehiculo(mat);
+							break;
+						case '4':
+							salirVehiculo(mat);
+							break;
+						case '5':
+							generarInforme(mat);
+							break;
+						case '6':
+							terminar=false;
+							break;
+						default:
+							throw ExcepcionDatoNoValido();
+					}
+		}catch(ExcepcionDatoNoValido& ed){
+					cout<< ed.what();
 				}
 	}while(terminar);
 
 }
 
 void Aparcamiento::entrarVehiculo(char* mat){
-	if(estadoActualParking==libre){
-		if(comprobarListaParking(mat)==-1){
-			if(comprobarListaResidente(mat)>-1){
-				parking[buscarSitio()]=&listaVehiculosResidentes[comprobarListaResidente(mat)];
-				cout<<"Ha entrado el vehiculo Residente con la matricula "<<mat<<endl;
-			}
-			else if(comprobarListaOficial(mat)>-1){
-				parking[buscarSitio()]=&listaVehiculosOficiales[comprobarListaOficial(mat)];
-				cout<<"Ha entrado el vehiculo Oficial con la matricula "<<mat<<endl;
+	try{
+		if(estadoActualParking==libre){
+			if(comprobarListaParking(mat)==-1){
+				if(comprobarListaResidente(mat)>-1){
+					parking[buscarSitio()]=&listaVehiculosResidentes[comprobarListaResidente(mat)];
+					cout<<"Ha entrado el vehiculo Residente con la matricula "<<mat<<"\n"<<endl;
+				}
+				else if(comprobarListaOficial(mat)>-1){
+					parking[buscarSitio()]=&listaVehiculosOficiales[comprobarListaOficial(mat)];
+					cout<<"Ha entrado el vehiculo Oficial con la matricula "<<mat<<"\n"<<endl;
+				}
+				else{
+					NoResidente *aux= new NoResidente(mat);
+					parking[buscarSitio()]= aux;
+					cout<<"Ha entrado el vehiculo No residente con la matricula "<<mat<<"\n"<<endl;
+				}
+				parking[comprobarListaParking(mat)]->entrar();
+				plazasOcupadas++;
+				if(plazasOcupadas == plazasTotales){
+					estadoActualParking= completo;
+				}
 			}
 			else{
-				NoResidente *aux= new NoResidente(mat);
-				parking[buscarSitio()]= aux;
-				cout<<"Ha entrado el vehiculo No residente con la matricula "<<mat<<endl;
-			}
-			parking[comprobarListaParking(mat)]->entrar();
-			plazasOcupadas++;
-			if(plazasOcupadas == plazasTotales){
-				estadoActualParking= completo;
+				throw ExcepcionVehiculoYaExiste();
 			}
 		}
+
 		else{
-			cout<<"El vehiculo ya esta dentro"<<endl;
+			throw ExcepcionDesbordamientoParking();
 		}
-	}
-
-	else{
-		cout<<"No caben mas vehiculos"<<endl;
-	}
-
+	}catch(ExcepcionDesbordamientoParking& ed){
+			cout<< ed.what();
+	}catch(ExcepcionVehiculoYaExiste& ed){
+			cout<< ed.what();
+		}
 }
 
 void Aparcamiento::salirVehiculo(char* mat){
-	if(comprobarListaParking(mat)>-1){
-		parking[comprobarListaParking(mat)]->salir();
-		parking[comprobarListaParking(mat)]=NULL;
-		cout<<"Ha salido el vehiculo "<<mat<<endl;
-		if(plazasOcupadas == plazasTotales){
-			estadoActualParking= libre;
-		}
-		plazasOcupadas--;
+	try{
+		if(comprobarListaParking(mat)>-1){
+			parking[comprobarListaParking(mat)]->salir();
+			parking[comprobarListaParking(mat)]=NULL;
+			cout<<"Ha salido el vehiculo "<<mat<<"\n"<<endl;
+			if(plazasOcupadas == plazasTotales){
+				estadoActualParking= libre;
+			}
+			plazasOcupadas--;
 
-	}
-	else{
-		cout<<"Este vehiculo no esta dentro"<<endl;
-	}
+		}
+		else{
+			throw ExcepcionVehiculoNoExiste();
+		}
+	}catch(ExcepcionVehiculoNoExiste& ed){
+					cout<< ed.what();
+			}
 }
 
 int Aparcamiento::buscarSitio(){
@@ -343,48 +375,61 @@ int Aparcamiento::buscarSitio(){
 
 
 void Aparcamiento::registarVehiculoOficial(char *matri){
-	if(comprobarListaOficial(matri)>-1){
-		cout<<"Ya es un vehiculo Oficial"<<endl;
-	}
-	else if(comprobarListaResidente(matri)>-1){
-		cout<<"Es un vehiculo Residente y no puede ser Oficial"<<endl;
-	}
-	else{
-		listaVehiculosOficiales[numVehiculosOficiales].setMatricula(matri);
-
-		cout<<"Se ha registrado "<<listaVehiculosOficiales[numVehiculosOficiales].getMatricula()<<" como oficial"<<endl;
-		numVehiculosOficiales++;
-
-		Oficial* auxiliar= new Oficial[numVehiculosOficiales+1];
-		for(int i=0; i<numVehiculosOficiales;i++){
-			auxiliar[i]=listaVehiculosOficiales[i];
+	try{
+		if(comprobarListaOficial(matri)>-1){
+			throw ExcepcionVehiculoYaExiste();
 		}
-		listaVehiculosOficiales=auxiliar;
-	}
+		else if(comprobarListaResidente(matri)>-1){
+			throw ExcepcionVehiculoNoValido();
+		}
+		else{
+			listaVehiculosOficiales[numVehiculosOficiales].setMatricula(matri);
+
+			cout<<"Se ha registrado "<<listaVehiculosOficiales[numVehiculosOficiales].getMatricula()<<" como oficial\n"<<endl;
+			numVehiculosOficiales++;
+
+			Oficial* auxiliar= new Oficial[numVehiculosOficiales+1];
+			for(int i=0; i<numVehiculosOficiales;i++){
+				auxiliar[i]=listaVehiculosOficiales[i];
+			}
+			listaVehiculosOficiales=auxiliar;
+		}
+		}catch(ExcepcionVehiculoNoValido& ed){
+				cout<< ed.what();
+		}catch(ExcepcionVehiculoYaExiste& ed){
+				cout<< ed.what();
+			}
+
+
 
 
 
 }
 
 void Aparcamiento::registrarVehiculoResidente(char *matri){
-
-	if(comprobarListaResidente(matri)>-1){
-			cout<<"Ya es un vehiculo Residente"<<endl;
+	try{
+		if(comprobarListaResidente(matri)>-1){
+				throw ExcepcionVehiculoYaExiste();
+			}
+		else if(comprobarListaOficial(matri)>-1){
+				throw ExcepcionVehiculoNoValido();
 		}
-	else if(comprobarListaOficial(matri)>-1){
-		cout<<"Es un vehiculo Oficial y no puede ser Residente"<<endl;
-	}
-	else{
-		listaVehiculosResidentes[numVehiculosResidentes].setMatricula(matri);
-		cout<<"Se ha registrado "<<listaVehiculosResidentes[numVehiculosResidentes].getMatricula()<<" como Residente"<<endl;
-		numVehiculosResidentes++;
+		else{
+			listaVehiculosResidentes[numVehiculosResidentes].setMatricula(matri);
+			cout<<"Se ha registrado "<<listaVehiculosResidentes[numVehiculosResidentes].getMatricula()<<" como Residente\n"<<endl;
+			numVehiculosResidentes++;
 
-		Residente* auxiliar= new Residente[numVehiculosResidentes+1];
-		for(int i=0; i<numVehiculosResidentes;i++){
-			auxiliar[i]=listaVehiculosResidentes[i];
+			Residente* auxiliar= new Residente[numVehiculosResidentes+1];
+			for(int i=0; i<numVehiculosResidentes;i++){
+				auxiliar[i]=listaVehiculosResidentes[i];
+			}
+			listaVehiculosResidentes=auxiliar;
 		}
-		listaVehiculosResidentes=auxiliar;
-	}
+	}catch(ExcepcionVehiculoNoValido& ed){
+			cout<< ed.what();
+	}catch(ExcepcionVehiculoYaExiste& ed){
+			cout<< ed.what();
+		}
 
 }
 
@@ -468,13 +513,16 @@ void Aparcamiento::finDeMes(){
 }
 
 void Aparcamiento::generarInforme(char* mat){
-	if(comprobarListaResidente(mat)>-1){
-		listaVehiculosResidentes[comprobarListaResidente(mat)].generarInforme();
-	}
-	else{
-		cout<<"Este vehiculo no es residente"<<endl;
-	}
-
+	try{
+		if(comprobarListaResidente(mat)>-1){
+			listaVehiculosResidentes[comprobarListaResidente(mat)].generarInforme();
+		}
+		else{
+			throw ExcepcionVehiculoNoValido();
+		}
+	}catch(ExcepcionVehiculoNoValido& ed){
+			cout<< ed.what();
+		}
 }
 Aparcamiento::~Aparcamiento() {
 	if(listaVehiculosOficiales!=NULL){

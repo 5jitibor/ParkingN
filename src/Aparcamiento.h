@@ -12,6 +12,12 @@
 #include "Residente.h"
 #include "NoResidente.h"
 #include "string.h"
+#include "ExcepcionDatoNoValido.h"
+#include "ExcepcionDesbordamientoParking.h"
+#include "ExcepcionVehiculoNoExiste.h"
+#include "ExcepcionNoExisteFichero.h"
+#include "ExcepcionVehiculoNoValido.h"
+#include "ExcepcionVehiculoYaExiste.h"
 #include <fstream>
 using namespace std;
 enum estadoParking{
@@ -34,14 +40,14 @@ public:
 	Aparcamiento(const Aparcamiento &other);
 	Aparcamiento& operator=(Aparcamiento &other);
 	void introducirDocumentos();
-	void registarVehiculoOficial(char*);
-	void registrarVehiculoResidente(char*);
 	void identificarMatricula(char*);
 	void generarInforme(char*);
-	void entrarVehiculo(char*);
-	void salirVehiculo(char *);
 	void generarDocumentos();
 	void finDeMes();
+	void registarVehiculoOficial(char*);
+	void registrarVehiculoResidente(char*);
+	void entrarVehiculo(char*);
+	void salirVehiculo(char *);
 	int comprobarListaResidente(char*);
 	int comprobarListaOficial(char*);
 	int comprobarListaParking(char*);
