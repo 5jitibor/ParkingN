@@ -56,7 +56,7 @@ void Residente::generarInforme(){
 	fsr<<"Minutos este mes: "<<tiempoTotal<<" minutos"<<endl;
 	fsr<<"Tiene que pagar: "<<tiempoTotal*precio<<" euros"<<endl;
 	fsr.close();
-	cout<<"Se ha generado correctamente el documento"<<endl;
+	cout<<"Se ha generado correctamente el documento\n"<<endl;
 }
 
 void Residente::finDeMes(){

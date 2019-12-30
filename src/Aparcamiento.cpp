@@ -505,9 +505,11 @@ int Aparcamiento::comprobarListaOficial(char* mat){
 
 void Aparcamiento::finDeMes(){
 	for(int i=0;i<numVehiculosOficiales;i++){
+		cout<<endl;
 		listaVehiculosOficiales[i].finDeMes();
 	}
 	for(int i=0;i<numVehiculosResidentes;i++){
+		cout<<endl;
 			listaVehiculosResidentes[i].finDeMes();
 	}
 }
