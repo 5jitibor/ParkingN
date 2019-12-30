@@ -179,6 +179,26 @@ void Aparcamiento::introducirDocumentos(){
 			}
 		}
 		else{
+
+			int num=0;
+			do{
+				 cout<<"Dame el numero de plazas: ";
+				 cin>>num;
+				 cout<<endl;
+				 try{
+					 if(num<1){
+						 throw ExcepcionDatoNoValido();
+					 }
+				 }catch(ExcepcionDatoNoValido& ed){
+							cout<< ed.what();
+				 }
+			}while(num<1);
+			plazasTotales=num;
+			delete parking;
+			parking= new Vehiculo*[plazasTotales];
+			for(int i=0;i<plazasTotales;i++){
+					parking[i]=NULL;
+			}
 			throw ExcepcionNoExisteFichero();
 		}
 		fep.close();
@@ -228,6 +248,7 @@ void Aparcamiento::generarDocumentos(){
 char* Aparcamiento::pedirMatricula(){
 	char* nombre;
 	char nombres[200];
+	fflush(stdin);
 	cout<<"Dame el nombre de la matricula: ";
 	cin>>nombres;
 	nombre=new char(strlen(nombres)+1);
@@ -242,6 +263,7 @@ void Aparcamiento::menuPrincipal(){
 	bool terminar=true;
 	char elecciones;
 	do{
+		fflush(stdin);
 		cout<<"Que quieres hacer:\n1-Identificar Vehiculo\n2-Fin de mes\n3-Cerrar\nOpcion:";
 		cin>>elecciones;
 		cout<<"\n";
@@ -273,6 +295,7 @@ void Aparcamiento::identificarMatricula(char* mat){
 	bool terminar=true;
 
 	do{
+		fflush(stdin);
 		cout<<"Que quieres hacer con el vehiculo "<<mat<<endl<<"1-Registrar Vehiculo Oficial\n2-Registrar Vehiculo Residente\n3-Entrar\n4-Salir\n5-Generar Informe\n6-Cerrar\nOpcion: ";
 		cin>>eleccionar;
 		cout<<endl;
