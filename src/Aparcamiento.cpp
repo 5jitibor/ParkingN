@@ -244,6 +244,19 @@ void Aparcamiento::generarDocumentos(){
 	}
 	fsb.close();
 }
+void Aparcamiento::mostrarAparcamiento(){
+	cout<<"Plazas del parking:"<<endl;
+	for(int i=0;i<plazasTotales;i++){
+		cout<<"Plaza "<<i<<": ";
+		if(parking[i] !=NULL){
+			cout<<(*parking[i]).getMatricula()<<endl;
+		}
+		else{
+			cout<<"Libre"<<endl;
+		}
+	}
+	cout<<endl;
+}
 
 char* Aparcamiento::pedirMatricula(){
 	char* nombre;
@@ -264,7 +277,7 @@ void Aparcamiento::menuPrincipal(){
 	char elecciones;
 	do{
 		fflush(stdin);
-		cout<<"Que quieres hacer:\n1-Identificar Vehiculo\n2-Fin de mes\n3-Cerrar\nOpcion:";
+		cout<<"Que quieres hacer:\n1-Identificar Vehiculo\n2-Fin de mes\n3-Mostrar Parking\n4-Cerrar\nOpcion:";
 		cin>>elecciones;
 		cout<<"\n";
 		try{
@@ -276,6 +289,9 @@ void Aparcamiento::menuPrincipal(){
 					finDeMes();
 					break;
 				case '3':
+					mostrarAparcamiento();
+					break;
+				case '4':
 					terminar=false;
 					break;
 				default:

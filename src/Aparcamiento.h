@@ -43,6 +43,7 @@ public:
 	void identificarMatricula(char*);
 	void generarInforme(char*);
 	void generarDocumentos();
+	void mostrarAparcamiento();
 	void finDeMes();
 	void registarVehiculoOficial(char*);
 	void registrarVehiculoResidente(char*);
