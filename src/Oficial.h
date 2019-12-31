@@ -21,7 +21,7 @@ public:
 	Oficial(const Oficial &other);
 	virtual ~Oficial();
 	Oficial& operator =(Oficial&);
-
+	friend ostream& operator<< (ostream& os, Oficial& a);
 	const Estancia* getEstanciasTotales() const {
 		return estanciasTotales;
 	}

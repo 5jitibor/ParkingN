@@ -59,9 +59,15 @@ void Residente::generarInforme(){
 	cout<<"Se ha generado correctamente el documento\n"<<endl;
 }
 
-void Residente::finDeMes(){
+ostream& operator<< (ostream& os, Residente& a){
+	os<<a.matricula<<endl;
+	os<<"Tiempo: "<<a.tiempoTotal<<endl;
+	os<<"Pago Total: "<<(a.tiempoTotal*a.precio)<<endl;
+	return os;
+}
 
-	cout<<"El vehiculo "<<matricula<<" tiene que pagar "<<tiempoTotal*precio<<" euros"<<endl;
+void Residente::finDeMes(){
+	//cout<<"El vehiculo "<<matricula<<" tiene que pagar "<<tiempoTotal*precio<<" euros"<<endl;
 	system("pause");
 	tiempoTotal=0;
 }
