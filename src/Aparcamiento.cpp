@@ -409,33 +409,92 @@ void Aparcamiento::menuVer(){
 	}while(terminar);
 }
 
+void Aparcamiento::menuTipoVehiculo(char* mat){
+	bool terminar=true;
+		char elecciones;
+		do{
+			terminar=false;
+			fflush(stdin);
+			cout<<"Que quieres hacer:\n1-Registrar oficial\n2-Registrar residente\n3-Volver\nOpcion:";
+			cin>>elecciones;
+			cout<<"\n";
+			try{
+				switch(elecciones){
+					case '1':
+						registarVehiculoOficial(mat);
+						break;
+					case '2':
+						registrarVehiculoResidente(mat);
+						break;
+					case '3':
+						terminar=false;
+						break;
+					default:
+						terminar=true;
+						throw ExcepcionDatoNoValido();
+						}
+				}catch(ExcepcionDatoNoValido& ed){
+					cout<< ed.what();
+				}catch(ExcepcionListaVacia& ed){
+					cout<< ed.what();
+				}
+
+		}while(terminar);
+}
+
+void Aparcamiento::menuParking(char* mat){
+	bool terminar=true;
+		char elecciones;
+		do{
+			terminar=false;
+			fflush(stdin);
+			cout<<"Que quieres hacer:\n1-Entrar al Parking\n2-Salir del Parking\n3-Volver\nOpcion:";
+			cin>>elecciones;
+			cout<<"\n";
+			try{
+				switch(elecciones){
+					case '1':
+						entrarVehiculo(mat);
+						break;
+					case '2':
+						salirVehiculo(mat);
+						break;
+					case '3':
+						terminar=false;
+						break;
+					default:
+						terminar=true;
+						throw ExcepcionDatoNoValido();
+						}
+				}catch(ExcepcionDatoNoValido& ed){
+					cout<< ed.what();
+				}catch(ExcepcionListaVacia& ed){
+					cout<< ed.what();
+				}
+
+		}while(terminar);
+}
 void Aparcamiento::identificarMatricula(char* mat){
 	char eleccionar=0;
 	bool terminar=true;
 
 	do{
 		fflush(stdin);
-		cout<<"Que quieres hacer con el vehiculo "<<mat<<endl<<"1-Registrar Vehiculo Oficial\n2-Registrar Vehiculo Residente\n3-Entrar\n4-Salir\n5-Generar Informe\n6-Cerrar\nOpcion: ";
+		cout<<"Que quieres hacer con el vehiculo "<<mat<<endl<<"1-Gestion tipo de vehiculo\n2-Gestion Parking\n3-Generar Informe\n4-Cerrar\nOpcion: ";
 		cin>>eleccionar;
 		cout<<endl;
 		try{
 			switch(eleccionar){
 						case '1':
-							registarVehiculoOficial(mat);
+							menuTipoVehiculo(mat);
 							break;
 						case '2':
-							registrarVehiculoResidente(mat);
+							menuParking(mat);
 							break;
 						case '3':
-							entrarVehiculo(mat);
-							break;
-						case '4':
-							salirVehiculo(mat);
-							break;
-						case '5':
 							generarInforme(mat);
 							break;
-						case '6':
+						case '4':
 							terminar=false;
 							break;
 						default:
@@ -454,17 +513,18 @@ void Aparcamiento::entrarVehiculo(char* mat){
 			if(comprobarListaParking(mat)==-1){
 				if(comprobarListaResidente(mat)>-1){
 					parking[buscarSitio()]=&listaVehiculosResidentes[comprobarListaResidente(mat)];
-					cout<<"Ha entrado el vehiculo Residente con la matricula "<<mat<<"\n"<<endl;
+					cout<<"Ha entrado el vehiculo Residente";
 				}
 				else if(comprobarListaOficial(mat)>-1){
 					parking[buscarSitio()]=&listaVehiculosOficiales[comprobarListaOficial(mat)];
-					cout<<"Ha entrado el vehiculo Oficial con la matricula "<<mat<<"\n"<<endl;
+					cout<<"Ha entrado el vehiculo Oficial ";
 				}
 				else{
 					NoResidente *aux= new NoResidente(mat);
 					parking[buscarSitio()]= aux;
-					cout<<"Ha entrado el vehiculo No residente con la matricula "<<mat<<"\n"<<endl;
+					cout<<"Ha entrado el vehiculo No residente";
 				}
+				cout<<" con la matricula "<<mat<<" en la plaza "<<comprobarListaParking(mat)<<endl<<endl;
 				parking[comprobarListaParking(mat)]->entrar();
 				plazasOcupadas++;
 				if(plazasOcupadas == plazasTotales){

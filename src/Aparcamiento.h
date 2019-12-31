@@ -46,8 +46,8 @@ public:
 	void menuVer();
 	void verResidentes();
 	void verOficiales();
-	void menuTipoVehiculo();
-	void menuParking();
+	void menuTipoVehiculo(char*);
+	void menuParking(char*);
 	void menuGuardar();
 	void menuCargar();
 	void seleccionarPlazasParking();
