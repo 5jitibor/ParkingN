@@ -8,7 +8,7 @@
 #include "Vehiculo.h"
 
 Vehiculo::Vehiculo(char* mat,float pre) {
-	matricula= new char(strlen(mat)+1);
+	matricula= new char[strlen(mat)+1];
 	for(int i=0;i<=(int)strlen(mat);i++){
 		matricula[i]=mat[i];
 	}
@@ -27,7 +27,7 @@ void Vehiculo::entrar(){
 
 
 Vehiculo::Vehiculo(const Vehiculo &other) {
-	matricula = new char(strlen(other.matricula)+1);
+	matricula = new char[strlen(other.matricula)+1];
 	for(int i=0;i<=(int)strlen(other.matricula);i++){
 				matricula[i]=other.matricula[i];
 	}

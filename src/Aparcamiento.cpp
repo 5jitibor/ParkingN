@@ -86,7 +86,7 @@ void Aparcamiento::introducirDocumentos(){
 			listaVehiculosResidentes = new Residente[numVehiculosResidentes+1];
 			for(int i=0;i<numVehiculosResidentes;i++){
 				fer>> aux;
-				matri= new char(strlen(aux)+1);
+				matri= new char[strlen(aux)+1];
 				for(int j=0; j<=(int)strlen(aux);j++){
 					matri[j]=aux[j];
 				}
@@ -111,7 +111,7 @@ void Aparcamiento::introducirDocumentos(){
 			listaVehiculosOficiales = new Oficial[numVehiculosOficiales+1];
 			for(int i=0;i<numVehiculosOficiales;i++){
 						feo>> aux;
-						matri= new char(strlen(aux)+1);
+						matri= new char[strlen(aux)+1];
 						for(int j=0; j<=(int)strlen(aux);j++){
 							matri[j]=aux[j];
 						}
@@ -155,7 +155,7 @@ void Aparcamiento::introducirDocumentos(){
 			fep>>plazasOcupadas;
 			for(int i=0;i<plazasOcupadas;i++){
 				fep>> aux;
-				matri= new char(strlen(aux)+1);
+				matri= new char[strlen(aux)+1];
 				for(int j=0; j<=(int)strlen(aux);j++){
 					matri[j]=aux[j];
 				}
@@ -259,12 +259,12 @@ void Aparcamiento::mostrarAparcamiento(){
 }
 
 char* Aparcamiento::pedirMatricula(){
-	char* nombre;
-	char nombres[200];
+	char* nombre=NULL;
+	char nombres[10];
 	fflush(stdin);
 	cout<<"Dame el nombre de la matricula: ";
 	cin>>nombres;
-	nombre=new char(strlen(nombres)+1);
+	nombre=new char[strlen(nombres)+1];
 	for(int i=0;i<=(int)strlen(nombres);i++){
 		nombre[i]=nombres[i];
 	}
@@ -480,7 +480,7 @@ int Aparcamiento::comprobarListaResidente(char* mat){
 		if(strlen(mataux)==strlen(mat)){
 				iguales=true;
 
-				for(int j=0;j<(int)sizeof(mat);j++){
+				for(int j=0;j<(int)strlen(mat);j++){
 					if(mat[j]!=mataux[j]){
 						iguales=false;
 						break;
@@ -505,7 +505,7 @@ int Aparcamiento::comprobarListaParking(char* mat){
 			if(strlen(mataux)==strlen(mat)){
 					iguales=true;
 
-					for(int j=0;j<(int)sizeof(mat);j++){
+					for(int j=0;j<(int)strlen(mat);j++){
 						if(mat[j]!=mataux[j]){
 							iguales=false;
 							break;
@@ -529,7 +529,7 @@ int Aparcamiento::comprobarListaOficial(char* mat){
 		char* mataux=listaVehiculosOficiales[i].getMatricula();
 		if(strlen(mataux)==strlen(mat)){
 			iguales=true;
-			for(int j=0;j<(int)sizeof(mat);j++){
+			for(int j=0;j<(int)strlen(mat);j++){
 				if(mat[j]!=mataux[j]){
 					iguales=false;
 				}
