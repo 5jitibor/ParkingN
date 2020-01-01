@@ -51,6 +51,17 @@ void Oficial::finDeMes(){
 	}
 }
 
+ostream& operator<< (ostream& os, Oficial& a){
+	cout<<"Matricula: "<<a.matricula<<endl;
+	cout<<"Numero de estacionamientos: "<<a.numEstaciones<<endl;
+	for(int i=0;i<a.numEstaciones;i++){
+		cout<<"Estacionamiento "<<i<<":"<<endl;
+		cout<<"\tEntrada:\n\t\tHora: "<<a.estanciasTotales[i].getInicio().getHora()<<"\n\t\tMinuto: "<<a.estanciasTotales[i].getInicio().getMinuto()<<endl;
+		cout<<"\tSalida:\n\t\tHora: "<<a.estanciasTotales[i].getFin().getHora()<<"\n\t\tMinuto: "<<a.estanciasTotales[i].getFin().getMinuto()<<endl;
+	}
+	return os;
+}
+
 Oficial& Oficial::operator =(Oficial& other){
 	if(strlen(matricula)!=strlen(other.matricula)){
 		delete matricula;

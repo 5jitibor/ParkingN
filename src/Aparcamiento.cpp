@@ -179,27 +179,7 @@ void Aparcamiento::introducirDocumentos(){
 			}
 		}
 		else{
-
-			int num=0;
-			do{
-				 cout<<"Dame el numero de plazas: ";
-				 cin>>num;
-				 cout<<endl;
-				 try{
-					 if(num<1){
-						 throw ExcepcionDatoNoValido();
-					 }
-				 }catch(ExcepcionDatoNoValido& ed){
-							cout<< ed.what();
-				 }
-			}while(num<1);
-			plazasTotales=num;
-			delete parking;
-			parking= new Vehiculo*[plazasTotales];
-			for(int i=0;i<plazasTotales;i++){
-					parking[i]=NULL;
-			}
-			throw ExcepcionNoExisteFichero();
+			seleccionarPlazasParking();
 		}
 		fep.close();
 	}catch(ExcepcionNoExisteFichero& ed){
@@ -271,13 +251,14 @@ char* Aparcamiento::pedirMatricula(){
 	cout<<endl;
 	return nombre;
 }
+
 void Aparcamiento::menuPrincipal(){
-	introducirDocumentos();
+	menuCargar();
 	bool terminar=true;
 	char elecciones;
 	do{
 		fflush(stdin);
-		cout<<"Que quieres hacer:\n1-Identificar Vehiculo\n2-Fin de mes\n3-Mostrar Parking\n4-Cerrar\nOpcion:";
+		cout<<"Que quieres hacer:\n1-Identificar Vehiculo\n2-Fin de mes\n3-Mostrar Listas\n4-Cerrar\nOpcion:";
 		cin>>elecciones;
 		cout<<"\n";
 		try{
@@ -289,9 +270,10 @@ void Aparcamiento::menuPrincipal(){
 					finDeMes();
 					break;
 				case '3':
-					mostrarAparcamiento();
+					menuVer();
 					break;
 				case '4':
+					menuGuardar();
 					terminar=false;
 					break;
 				default:
@@ -301,38 +283,218 @@ void Aparcamiento::menuPrincipal(){
 				cout<< ed.what();
 			}
 	}while(terminar);
-	generarDocumentos();
-
 	cout<<"Adios";
 }
 
+void Aparcamiento::menuCargar(){
+	bool terminated=true;
+		char elecciones;
+		do{
+			terminated=false;
+			fflush(stdin);
+			cout<<"Que quieres cargar desde fichero:\nSi (S) o No(N)\nOpcion:";
+			cin>>elecciones;
+			cout<<"\n";
+			try{
+				switch(elecciones){
+					case 'S':
+						introducirDocumentos();
+						cout<<"Se ha cargado correctamente\n"<<endl;
+						break;
+					case 'N':
+						cout<<"No se han cargado datos de fichero\n"<<endl;
+						seleccionarPlazasParking();
+						break;
+
+					default:
+						terminated=true;
+						throw ExcepcionDatoNoValido();
+						}
+				}catch(ExcepcionDatoNoValido& ed){
+					cout<< ed.what();
+				}catch(ExcepcionListaVacia& ed){
+					cout<< ed.what();
+				}
+
+	}while(terminated);
+}
+
+
+void Aparcamiento::menuGuardar(){
+	bool terminated=true;
+	char elecciones;
+	do{
+		terminated=false;
+		fflush(stdin);
+		cout<<"Que quieres guardar los cambios:\nSi (S) o No(N)\nOpcion:";
+		cin>>elecciones;
+		cout<<"\n";
+		try{
+			switch(elecciones){
+				case 'S':
+					generarDocumentos();
+					cout<<"Se ha guardado correctamente"<<endl;
+					break;
+				case 'N':
+					cout<<"No se guardaran los cambios"<<endl;
+					break;
+
+				default:
+					terminated=true;
+					throw ExcepcionDatoNoValido();
+					}
+			}catch(ExcepcionDatoNoValido& ed){
+				cout<< ed.what();
+			}catch(ExcepcionListaVacia& ed){
+				cout<< ed.what();
+			}
+
+	}while(terminated);
+}
+
+void Aparcamiento::menuVer(){
+	bool terminar=true;
+	char elecciones;
+	do{
+		terminar=false;
+		fflush(stdin);
+		cout<<"Que quieres mostrar:\n1-Oficiales\n2-Residente\n3-Parking\n4-Volver\nOpcion:";
+		cin>>elecciones;
+		cout<<"\n";
+		try{
+			switch(elecciones){
+				case '1':
+					if(numVehiculosOficiales>0){
+						cout<<"Vehiculos oficiales:"<<endl;
+						for(int i=0;i<numVehiculosOficiales;i++){
+							cout<<"Vehiculo "<<i<<": ";
+							cout<<listaVehiculosOficiales[i];
+						}
+						cout<<endl;
+					}
+					else{
+						throw ExcepcionListaVacia();
+					}
+					break;
+				case '2':
+
+					if(numVehiculosResidentes>0){
+					cout<<"Vehiculos residentes:"<<endl;
+					for(int i=0;i<numVehiculosResidentes;i++){
+						cout<<"Vehiculo"<<i<<": ";
+						cout<<listaVehiculosResidentes[i];
+					}
+					cout<<endl;
+					}
+					else{
+						throw ExcepcionListaVacia();
+					}
+					break;
+				case '3':
+					mostrarAparcamiento();
+					break;
+				case '4':
+					terminar=false;
+					break;
+				default:
+					terminar=true;
+					throw ExcepcionDatoNoValido();
+					}
+			}catch(ExcepcionDatoNoValido& ed){
+				cout<< ed.what();
+			}catch(ExcepcionListaVacia& ed){
+				cout<< ed.what();
+			}
+
+	}while(terminar);
+}
+
+void Aparcamiento::menuTipoVehiculo(char* mat){
+	bool terminar=true;
+		char elecciones;
+		do{
+			terminar=false;
+			fflush(stdin);
+			cout<<"Que quieres hacer:\n1-Registrar oficial\n2-Registrar residente\n3-Volver\nOpcion:";
+			cin>>elecciones;
+			cout<<"\n";
+			try{
+				switch(elecciones){
+					case '1':
+						registarVehiculoOficial(mat);
+						break;
+					case '2':
+						registrarVehiculoResidente(mat);
+						break;
+					case '3':
+						terminar=false;
+						break;
+					default:
+						terminar=true;
+						throw ExcepcionDatoNoValido();
+						}
+				}catch(ExcepcionDatoNoValido& ed){
+					cout<< ed.what();
+				}catch(ExcepcionListaVacia& ed){
+					cout<< ed.what();
+				}
+
+		}while(terminar);
+}
+
+void Aparcamiento::menuParking(char* mat){
+	bool terminar=true;
+		char elecciones;
+		do{
+			terminar=false;
+			fflush(stdin);
+			cout<<"Que quieres hacer:\n1-Entrar al Parking\n2-Salir del Parking\n3-Volver\nOpcion:";
+			cin>>elecciones;
+			cout<<"\n";
+			try{
+				switch(elecciones){
+					case '1':
+						entrarVehiculo(mat);
+						break;
+					case '2':
+						salirVehiculo(mat);
+						break;
+					case '3':
+						terminar=false;
+						break;
+					default:
+						terminar=true;
+						throw ExcepcionDatoNoValido();
+						}
+				}catch(ExcepcionDatoNoValido& ed){
+					cout<< ed.what();
+				}catch(ExcepcionListaVacia& ed){
+					cout<< ed.what();
+				}
+
+		}while(terminar);
+}
 void Aparcamiento::identificarMatricula(char* mat){
 	char eleccionar=0;
 	bool terminar=true;
 
 	do{
 		fflush(stdin);
-		cout<<"Que quieres hacer con el vehiculo "<<mat<<endl<<"1-Registrar Vehiculo Oficial\n2-Registrar Vehiculo Residente\n3-Entrar\n4-Salir\n5-Generar Informe\n6-Cerrar\nOpcion: ";
+		cout<<"Que quieres hacer con el vehiculo "<<mat<<endl<<"1-Gestion tipo de vehiculo\n2-Gestion Parking\n3-Generar Informe\n4-Cerrar\nOpcion: ";
 		cin>>eleccionar;
 		cout<<endl;
 		try{
 			switch(eleccionar){
 						case '1':
-							registarVehiculoOficial(mat);
+							menuTipoVehiculo(mat);
 							break;
 						case '2':
-							registrarVehiculoResidente(mat);
+							menuParking(mat);
 							break;
 						case '3':
-							entrarVehiculo(mat);
-							break;
-						case '4':
-							salirVehiculo(mat);
-							break;
-						case '5':
 							generarInforme(mat);
 							break;
-						case '6':
+						case '4':
 							terminar=false;
 							break;
 						default:
@@ -351,17 +513,18 @@ void Aparcamiento::entrarVehiculo(char* mat){
 			if(comprobarListaParking(mat)==-1){
 				if(comprobarListaResidente(mat)>-1){
 					parking[buscarSitio()]=&listaVehiculosResidentes[comprobarListaResidente(mat)];
-					cout<<"Ha entrado el vehiculo Residente con la matricula "<<mat<<"\n"<<endl;
+					cout<<"Ha entrado el vehiculo Residente";
 				}
 				else if(comprobarListaOficial(mat)>-1){
 					parking[buscarSitio()]=&listaVehiculosOficiales[comprobarListaOficial(mat)];
-					cout<<"Ha entrado el vehiculo Oficial con la matricula "<<mat<<"\n"<<endl;
+					cout<<"Ha entrado el vehiculo Oficial ";
 				}
 				else{
 					NoResidente *aux= new NoResidente(mat);
 					parking[buscarSitio()]= aux;
-					cout<<"Ha entrado el vehiculo No residente con la matricula "<<mat<<"\n"<<endl;
+					cout<<"Ha entrado el vehiculo No residente";
 				}
+				cout<<" con la matricula "<<mat<<" en la plaza "<<comprobarListaParking(mat)<<endl<<endl;
 				parking[comprobarListaParking(mat)]->entrar();
 				plazasOcupadas++;
 				if(plazasOcupadas == plazasTotales){
@@ -543,14 +706,34 @@ int Aparcamiento::comprobarListaOficial(char* mat){
 }
 
 void Aparcamiento::finDeMes(){
-	for(int i=0;i<numVehiculosOficiales;i++){
-		cout<<endl;
-		listaVehiculosOficiales[i].finDeMes();
+	try{
+		if(numVehiculosOficiales>0){
+
+			for(int i=0;i<numVehiculosOficiales;i++){
+				cout<<endl;
+				listaVehiculosOficiales[i].finDeMes();
+			}
+		}
+		else{
+			throw ExcepcionListaVacia();
+		}
+	}catch(ExcepcionListaVacia& ed){
+		cout<< ed.what();
 	}
-	for(int i=0;i<numVehiculosResidentes;i++){
-		cout<<endl;
-			listaVehiculosResidentes[i].finDeMes();
-	}
+	try{
+		if(numVehiculosResidentes>0){
+			for(int i=0;i<numVehiculosResidentes;i++){
+				cout<<endl;
+				cout<<listaVehiculosResidentes[i];
+					listaVehiculosResidentes[i].finDeMes();
+			}
+		}
+		else{
+			throw ExcepcionListaVacia();
+		}
+	}catch(ExcepcionListaVacia& ed){
+			cout<< ed.what();
+		}
 }
 
 void Aparcamiento::generarInforme(char* mat){
@@ -564,6 +747,33 @@ void Aparcamiento::generarInforme(char* mat){
 	}catch(ExcepcionVehiculoNoValido& ed){
 			cout<< ed.what();
 		}
+}
+
+void Aparcamiento::seleccionarPlazasParking(){
+
+	int num=0;
+	char aux[100];
+	do{
+		try{
+			 fflush(stdin);
+			 cout<<"Dame el numero de plazas: ";
+			 cin>>aux;
+			 num=atoi(aux);
+			 cout<<endl;
+
+			 if(num<1){
+				 throw ExcepcionDatoNoValido();
+			 }
+		 }catch(ExcepcionDatoNoValido& ed){
+					cout<< ed.what();
+		 }
+	}while(num<1);
+	plazasTotales=num;
+	delete parking;
+	parking= new Vehiculo*[plazasTotales];
+	for(int i=0;i<plazasTotales;i++){
+			parking[i]=NULL;
+	}
 }
 Aparcamiento::~Aparcamiento() {
 	if(listaVehiculosOficiales!=NULL){

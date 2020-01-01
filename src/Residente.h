@@ -19,7 +19,7 @@ public:
 	void finDeMes();
 	void generarInforme();
 	Residente& operator =(Residente&);
-
+	friend ostream& operator<< (ostream& os, Residente& a);
 	Residente(const Residente &other);
 
 	int getTiempoTotal() const {

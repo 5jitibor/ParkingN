@@ -18,6 +18,8 @@
 #include "ExcepcionNoExisteFichero.h"
 #include "ExcepcionVehiculoNoValido.h"
 #include "ExcepcionVehiculoYaExiste.h"
+#include "ExcepcionListaVacia.h"
+#include <stdlib.h>
 #include <fstream>
 using namespace std;
 enum estadoParking{
@@ -40,6 +42,15 @@ public:
 	Aparcamiento(const Aparcamiento &other);
 	Aparcamiento& operator=(Aparcamiento &other);
 	void introducirDocumentos();
+	void menuPrincipal();
+	void menuVer();
+	void verResidentes();
+	void verOficiales();
+	void menuTipoVehiculo(char*);
+	void menuParking(char*);
+	void menuGuardar();
+	void menuCargar();
+	void seleccionarPlazasParking();
 	void identificarMatricula(char*);
 	void generarInforme(char*);
 	void generarDocumentos();
@@ -53,7 +64,7 @@ public:
 	int comprobarListaOficial(char*);
 	int comprobarListaParking(char*);
 	int buscarSitio();
-	void menuPrincipal();
+
 	char* pedirMatricula();
 };
 
