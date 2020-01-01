@@ -415,16 +415,81 @@ void Aparcamiento::menuTipoVehiculo(char* mat){
 		do{
 			terminar=false;
 			fflush(stdin);
-			cout<<"Que quieres hacer:\n1-Registrar oficial\n2-Registrar residente\n3-Volver\nOpcion:";
+			cout<<"Que quieres hacer:\n1-Gestion oficial\n2-Gestion residente\n3-Volver\nOpcion:";
 			cin>>elecciones;
 			cout<<"\n";
 			try{
 				switch(elecciones){
 					case '1':
-						registarVehiculoOficial(mat);
+						menuOficial(mat);
 						break;
 					case '2':
+						menuResidente(mat);
+						break;
+					case '3':
+						break;
+					default:
+						terminar=true;
+						throw ExcepcionDatoNoValido();
+						}
+				}catch(ExcepcionDatoNoValido& ed){
+					cout<< ed.what();
+				}catch(ExcepcionListaVacia& ed){
+					cout<< ed.what();
+				}
+
+		}while(terminar);
+}
+
+void Aparcamiento::menuOficial(char* mat){
+	bool terminar=true;
+		char elecciones;
+		do{
+			terminar=false;
+			fflush(stdin);
+			cout<<"Que quieres hacer como vehiculo oficial:\n1-Registrar\n2-Eliminar\n3-Volver\nOpcion:";
+			cin>>elecciones;
+			cout<<"\n";
+			try{
+				switch(elecciones){
+					case '1':
+						registrarVehiculoOficial(mat);
+						break;
+					case '2':
+						cout<<"roximamente"<<endl<<endl;
+						break;
+					case '3':
+						terminar=false;
+						break;
+					default:
+						terminar=true;
+						throw ExcepcionDatoNoValido();
+						}
+				}catch(ExcepcionDatoNoValido& ed){
+					cout<< ed.what();
+				}catch(ExcepcionListaVacia& ed){
+					cout<< ed.what();
+				}
+
+		}while(terminar);
+}
+
+void Aparcamiento::menuResidente(char* mat){
+	bool terminar=true;
+		char elecciones;
+		do{
+			terminar=false;
+			fflush(stdin);
+			cout<<"Que quieres hacer como vehiculo residente:\n1-Registrar\n2-Eliminar\n3-Volver\nOpcion:";
+			cin>>elecciones;
+			cout<<"\n";
+			try{
+				switch(elecciones){
+					case '1':
 						registrarVehiculoResidente(mat);
+						break;
+					case '2':
+						cout<<"Proximamente"<<endl<<endl;
 						break;
 					case '3':
 						terminar=false;
@@ -576,7 +641,7 @@ int Aparcamiento::buscarSitio(){
 }
 
 
-void Aparcamiento::registarVehiculoOficial(char *matri){
+void Aparcamiento::registrarVehiculoOficial(char *matri){
 	try{
 		if(comprobarListaOficial(matri)>-1){
 			throw ExcepcionVehiculoYaExiste();

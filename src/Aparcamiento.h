@@ -47,6 +47,8 @@ public:
 	void verResidentes();
 	void verOficiales();
 	void menuTipoVehiculo(char*);
+	void menuOficial(char*);
+	void menuResidente(char*);
 	void menuParking(char*);
 	void menuGuardar();
 	void menuCargar();
@@ -56,7 +58,7 @@ public:
 	void generarDocumentos();
 	void mostrarAparcamiento();
 	void finDeMes();
-	void registarVehiculoOficial(char*);
+	void registrarVehiculoOficial(char*);
 	void registrarVehiculoResidente(char*);
 	void entrarVehiculo(char*);
 	void salirVehiculo(char *);
