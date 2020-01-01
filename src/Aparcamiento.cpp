@@ -203,10 +203,10 @@ void Aparcamiento::generarDocumentos(){
 		fs<<listaVehiculosOficiales[i].getMatricula()<<endl;
 		fs<<listaVehiculosOficiales[i].getNumEstaciones()<<endl;
 		for(int j=0; j<listaVehiculosOficiales[i].getNumEstaciones(); j++){
-			fs<<listaVehiculosOficiales[i].getEstanciasTotales()[i].getInicio().getHora()<<endl;
-			fs<<listaVehiculosOficiales[i].getEstanciasTotales()[i].getInicio().getMinuto()<<endl;
-			fs<<listaVehiculosOficiales[i].getEstanciasTotales()[i].getFin().getHora()<<endl;
-			fs<<listaVehiculosOficiales[i].getEstanciasTotales()[i].getFin().getMinuto()<<endl;
+			fs<<listaVehiculosOficiales[i].getEstanciasTotales()[j].getInicio().getHora()<<endl;
+			fs<<listaVehiculosOficiales[i].getEstanciasTotales()[j].getInicio().getMinuto()<<endl;
+			fs<<listaVehiculosOficiales[i].getEstanciasTotales()[j].getFin().getHora()<<endl;
+			fs<<listaVehiculosOficiales[i].getEstanciasTotales()[j].getFin().getMinuto()<<endl;
 
 		}
 	}
@@ -293,7 +293,7 @@ void Aparcamiento::menuCargar(){
 		do{
 			terminated=false;
 			fflush(stdin);
-			cout<<"Que quieres cargar desde fichero:\nSi (S) o No(N)\nOpcion:";
+			cout<<"Quieres cargar desde fichero:\nSi (S) o No(N)\nOpcion:";
 			cin>>elecciones;
 			cout<<"\n";
 			try{
@@ -327,7 +327,7 @@ void Aparcamiento::menuGuardar(){
 	do{
 		terminated=false;
 		fflush(stdin);
-		cout<<"Que quieres guardar los cambios:\nSi (S) o No(N)\nOpcion:";
+		cout<<"Quieres guardar los cambios:\nSi (S) o No(N)\nOpcion:";
 		cin>>elecciones;
 		cout<<"\n";
 		try{
@@ -860,8 +860,8 @@ void Aparcamiento::finDeMes(){
 		if(numVehiculosOficiales>0){
 
 			for(int i=0;i<numVehiculosOficiales;i++){
-				cout<<endl;
 				listaVehiculosOficiales[i].finDeMes();
+				cout<<endl;
 			}
 		}
 		else{
@@ -873,8 +873,8 @@ void Aparcamiento::finDeMes(){
 	try{
 		if(numVehiculosResidentes>0){
 			for(int i=0;i<numVehiculosResidentes;i++){
-				cout<<endl;
 				listaVehiculosResidentes[i].finDeMes();
+				cout<<endl;
 			}
 		}
 		else{

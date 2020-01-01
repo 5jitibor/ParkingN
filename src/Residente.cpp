@@ -61,8 +61,8 @@ void Residente::generarInforme(){
 
 ostream& operator<< (ostream& os, Residente& a){
 	os<<a.matricula<<endl;
-	os<<"Tiempo: "<<a.tiempoTotal<<endl;
-	os<<"Pago Total: "<<(a.tiempoTotal*a.precio)<<endl;
+	os<<"Tiempo: "<<a.tiempoTotal<<" minutos."<<endl;
+	os<<"Pago Total: "<<(a.tiempoTotal*a.precio)<<" euros"<<endl;
 	return os;
 }
 
