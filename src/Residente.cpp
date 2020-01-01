@@ -43,7 +43,7 @@ Residente& Residente::operator =(Residente& other){
 
 void Residente::generarInforme(){
 	char* aux=(char *)".txt";
-	char *nombrefichero= new char(strlen(matricula)+strlen(aux)+1);
+	char *nombrefichero= new char[strlen(matricula)+strlen(aux)+1];
 	for(int i=0;i<(int)strlen(matricula);i++){
 		nombrefichero[i]=matricula[i];
 	}
@@ -67,7 +67,7 @@ ostream& operator<< (ostream& os, Residente& a){
 }
 
 void Residente::finDeMes(){
-	//cout<<"El vehiculo "<<matricula<<" tiene que pagar "<<tiempoTotal*precio<<" euros"<<endl;
+	cout<<"El vehiculo "<<matricula<<" tiene que pagar "<<tiempoTotal*precio<<" euros"<<endl;
 	system("pause");
 	tiempoTotal=0;
 }
