@@ -31,6 +31,6 @@ int  Estancia::calcularTiempo(){
 	if(hora<0){
 		hora+=24;
 	}
-	return (hora*24)+minutos;
+	return (hora*60)+minutos;
 }
 
