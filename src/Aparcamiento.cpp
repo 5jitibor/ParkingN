@@ -243,7 +243,7 @@ char* Aparcamiento::pedirMatricula(){
 	char* nombre=NULL;
 	char nombres[10];
 	fflush(stdin);
-	cout<<"Dame el nombre de la matricula: ";
+	cout<<"Dame la matricula: ";
 	cin>>nombres;
 	nombre=new char[strlen(nombres)+1];
 	for(int i=0;i<=(int)strlen(nombres);i++){
@@ -337,7 +337,7 @@ void Aparcamiento::menuGuardar(){
 					cout<<"Se ha guardado correctamente"<<endl;
 					break;
 				case 'N':
-					cout<<"No se guardaran los cambios"<<endl;
+					cout<<"No se han guardado los cambios"<<endl;
 					break;
 
 				default:
