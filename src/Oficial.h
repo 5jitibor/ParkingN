@@ -27,7 +27,10 @@ public:
 	}
 
 	void setEstanciasTotales(Estancia *estanciasTotal) {
-		this->estanciasTotales = estanciasTotal;
+		estanciasTotales = new Estancia[numEstaciones+1];
+		for(int i=0;i<numEstaciones;i++){
+			estanciasTotales[i]=estanciasTotal[i];
+		}
 	}
 
 	int getNumEstaciones() const {

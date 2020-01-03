@@ -520,7 +520,7 @@ void Aparcamiento::registrarVehiculoOficial(char *matri){
 		if(comprobarListaOficial(matri)>-1){
 			throw ExcepcionVehiculoYaExiste();
 		}
-		else if(comprobarListaResidente(matri)>-1){
+		else if(comprobarListaResidente(matri)>-1 || comprobarListaParking(matri)>-1){
 			throw ExcepcionVehiculoNoValido();
 		}
 		else{
@@ -552,7 +552,7 @@ void Aparcamiento::registrarVehiculoResidente(char *matri){
 		if(comprobarListaResidente(matri)>-1){
 				throw ExcepcionVehiculoYaExiste();
 			}
-		else if(comprobarListaOficial(matri)>-1){
+		else if(comprobarListaOficial(matri)>-1 || comprobarListaParking(matri)>-1){
 				throw ExcepcionVehiculoNoValido();
 		}
 		else{
@@ -786,48 +786,21 @@ int Aparcamiento::buscarSitio(){
 }
 
 int Aparcamiento::comprobarListaResidente(char* mat){
-	bool iguales=false;
-	char * mataux;
+
 	for(int i=0;i<numVehiculosResidentes;i++){
-		mataux=listaVehiculosResidentes[i].getMatricula();
-		if(strlen(mataux)==strlen(mat)){
-				iguales=true;
-
-				for(int j=0;j<(int)strlen(mat);j++){
-					if(mat[j]!=mataux[j]){
-						iguales=false;
-						break;
-						}
-					}
-				if(iguales){
-					return i;
-				}
-			}
-
+		if(igualesMatriculas(mat,listaVehiculosResidentes[i].getMatricula())){
+			return i;
+		}
 	}
 	return -1;
 }
 
 
 int Aparcamiento::comprobarListaParking(char* mat){
-	bool iguales=false;
-	char * mataux;
 	for(int i=0;i<plazasTotales;i++){
 		if(parking[i]!=NULL){
-			mataux=parking[i]->getMatricula();
-			if(strlen(mataux)==strlen(mat)){
-					iguales=true;
-
-					for(int j=0;j<(int)strlen(mat);j++){
-						if(mat[j]!=mataux[j]){
-							iguales=false;
-							break;
-							}
-						}
-					if(iguales){
-						return i;
-					}
-
+			if(igualesMatriculas(mat,parking[i]->getMatricula())){
+				return i;
 			}
 		}
 
@@ -836,23 +809,27 @@ int Aparcamiento::comprobarListaParking(char* mat){
 }
 
 int Aparcamiento::comprobarListaOficial(char* mat){
-	bool iguales=false;
-
 	for(int i=0;i<numVehiculosOficiales;i++){
-		char* mataux=listaVehiculosOficiales[i].getMatricula();
-		if(strlen(mataux)==strlen(mat)){
-			iguales=true;
-			for(int j=0;j<(int)strlen(mat);j++){
-				if(mat[j]!=mataux[j]){
-					iguales=false;
-				}
-			}
-			if(iguales){
-				return i;
+		if(igualesMatriculas(mat,listaVehiculosOficiales[i].getMatricula())){
+			return i;
+		}
+
+	}
+	return -1;
+}
+
+bool Aparcamiento::igualesMatriculas(char* mata, char* matb){
+	if(strlen(mata)==strlen(matb)){
+		for(int j=0;j<(int)strlen(mata);j++){
+			if(mata[j]!=matb[j]){
+				return false;
 			}
 		}
 	}
-	return -1;
+	else{
+		return false;
+	}
+	return true;
 }
 
 void Aparcamiento::finDeMes(){

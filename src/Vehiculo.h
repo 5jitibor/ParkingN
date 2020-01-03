@@ -30,7 +30,11 @@ public:
 	}
 
 	void setMatricula(char *matri) {
-		matricula = matri;
+		matricula= new char[strlen(matri)+1];
+		for(int i=0;i<=(int)strlen(matri);i++){
+			matricula[i] = matri[i];
+		}
+
 	}
 	virtual ~Vehiculo();
 

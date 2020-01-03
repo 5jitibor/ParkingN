@@ -67,6 +67,7 @@ public:
 	int comprobarListaResidente(char*);
 	int comprobarListaOficial(char*);
 	int comprobarListaParking(char*);
+	bool igualesMatriculas(char*, char*);
 	int buscarSitio();
 
 	char* pedirMatricula();
