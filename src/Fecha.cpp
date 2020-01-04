@@ -21,6 +21,20 @@ void Fecha::insertarFechaActual(){
 	minuto=rand()%60;
 }
 
+Fecha Fecha::operator-(const Fecha& ini){
+	Fecha aux;
 
+	aux.minuto=minuto-ini.getMinuto();
+
+	aux.hora=hora-ini.getHora();
+	if(aux.minuto<0){
+		aux.minuto+=60;
+		hora--;
+	}
+	if(aux.hora<0){
+		aux.hora+=24;
+	}
+	return aux;
+}
 
 

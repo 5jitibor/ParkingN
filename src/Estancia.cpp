@@ -6,7 +6,6 @@
  */
 
 #include "Estancia.h"
-
 Estancia::Estancia() {
 	// TODO Auto-generated constructor stub
 
@@ -21,16 +20,8 @@ void Estancia::pararTiempo(){
 }
 
 int  Estancia::calcularTiempo(){
-	int minutos=fin.getMinuto()-inicio.getMinuto();
-
-	int hora=fin.getMinuto()-inicio.getHora();
-	if(minutos<0){
-		minutos+=60;
-		hora--;
-	}
-	if(hora<0){
-		hora+=24;
-	}
-	return (hora*60)+minutos;
+	Fecha aux;
+	aux=fin-inicio;
+	return(aux.getHora()*60)+aux.getMinuto();
 }
 

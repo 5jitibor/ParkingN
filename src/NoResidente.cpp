@@ -39,7 +39,7 @@ NoResidente& NoResidente::operator =(NoResidente& other){
 void NoResidente::salir(){
 
 	estanciaActual.pararTiempo();
-	int cantidad= estanciaActual.calcularTiempo();
+	float cantidad= estanciaActual.calcularTiempo();
 	cantidad*=precio;
 	cout<<"Tienes que pagar "<<cantidad<<endl;
 	system("pause");

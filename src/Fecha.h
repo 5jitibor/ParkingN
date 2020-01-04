@@ -16,7 +16,7 @@ int minuto;
 public:
 	Fecha();
 	void insertarFechaActual();
-
+	Fecha operator-(const Fecha&);
 	int getHora() const {
 		return hora;
 	}

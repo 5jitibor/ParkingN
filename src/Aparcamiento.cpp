@@ -144,6 +144,7 @@ void Aparcamiento::introducirDocumentos(){
 			cout<< ed.what();
 	}
 	try{
+		int posicion;
 		ifstream fep("Parking.txt");
 		if(fep.good()){
 			fep>>plazasTotales;
@@ -160,11 +161,11 @@ void Aparcamiento::introducirDocumentos(){
 					matri[j]=aux[j];
 				}
 				fep>>auxNum;
-				if(comprobarListaResidente(matri)>-1){
-					parking[auxNum]=&listaVehiculosResidentes[comprobarListaResidente(matri)];
+				if((posicion=comprobarListaResidente(matri))>-1){
+					parking[auxNum]=&listaVehiculosResidentes[posicion];
 				}
-				else if(comprobarListaOficial(matri)>-1){
-					parking[auxNum]=&listaVehiculosOficiales[comprobarListaOficial(matri)];
+				else if((posicion=comprobarListaOficial(matri))>-1){
+					parking[auxNum]=&listaVehiculosOficiales[posicion];
 				}
 				else{
 					NoResidente *auxNo= new NoResidente(matri);
@@ -241,7 +242,7 @@ void Aparcamiento::mostrarAparcamiento(){
 
 char* Aparcamiento::pedirMatricula(){
 	char* nombre=NULL;
-	char nombres[10];
+	char nombres[100];
 	fflush(stdin);
 	cout<<"Dame la matricula: ";
 	cin>>nombres;
@@ -576,12 +577,13 @@ void Aparcamiento::registrarVehiculoResidente(char *matri){
 
 void Aparcamiento::eliminarVehiculoResidente(char *matri){
 	try{
+		int pos;
 		if(comprobarListaParking(matri)==-1){
-			if(comprobarListaResidente(matri)>-1){
+			if((pos=comprobarListaResidente(matri))>-1){
 				Residente* aux = new Residente[numVehiculosResidentes];
 				int auxnum=0;
 				for(int i=0;i<numVehiculosResidentes;i++){
-					if(comprobarListaResidente(matri)!=i){
+					if(pos!=i){
 						aux[auxnum]=listaVehiculosResidentes[i];
 						auxnum++;
 					}
@@ -589,13 +591,13 @@ void Aparcamiento::eliminarVehiculoResidente(char *matri){
 				listaVehiculosResidentes=aux;
 				numVehiculosResidentes--;
 				for(int i=0;i<numVehiculosResidentes;i++){
-					auxnum=comprobarListaOficial(listaVehiculosResidentes[i].getMatricula());
+					auxnum=comprobarListaParking(listaVehiculosResidentes[i].getMatricula());
 					if(auxnum>-1){
 						parking[auxnum]=NULL;
 						parking[auxnum]=&listaVehiculosResidentes[i];
 					}
 				}
-				cout<<"Se ha eliminado de la lista residente el vehiculo "<<matri<<endl;
+				cout<<"Se ha eliminado de la lista residente el vehiculo "<<matri<<endl<<endl;
 			}
 			else{
 				throw ExcepcionVehiculoNoExiste();
@@ -613,12 +615,13 @@ void Aparcamiento::eliminarVehiculoResidente(char *matri){
 
 void Aparcamiento::eliminarVehiculoOficial(char *matri){
 	try{
+		int pos;
 		if(comprobarListaParking(matri)==-1){
-			if(comprobarListaOficial(matri)>-1){
+			if((pos=comprobarListaOficial(matri))>-1){
 				Oficial* aux = new Oficial[numVehiculosOficiales];
 				int auxnum=0;
 				for(int i=0;i<numVehiculosOficiales;i++){
-					if(comprobarListaOficial(matri)!=i){
+					if(pos!=i){
 						aux[auxnum]=listaVehiculosOficiales[i];
 						auxnum++;
 					}
@@ -626,8 +629,7 @@ void Aparcamiento::eliminarVehiculoOficial(char *matri){
 				listaVehiculosOficiales=aux;
 				numVehiculosOficiales--;
 				for(int i=0;i<numVehiculosOficiales;i++){
-					auxnum=comprobarListaOficial(listaVehiculosOficiales[i].getMatricula());
-					if(auxnum>-1){
+					if((auxnum=comprobarListaParking(listaVehiculosOficiales[i].getMatricula()))>-1){
 						parking[auxnum]=NULL;
 						parking[auxnum]=&listaVehiculosOficiales[i];
 					}
@@ -719,14 +721,15 @@ void Aparcamiento::identificarMatricula(char* mat){
 
 void Aparcamiento::entrarVehiculo(char* mat){
 	try{
+		int numAux;
 		if(estadoActualParking==libre){
 			if(comprobarListaParking(mat)==-1){
-				if(comprobarListaResidente(mat)>-1){
-					parking[buscarSitio()]=&listaVehiculosResidentes[comprobarListaResidente(mat)];
+				if((numAux=comprobarListaResidente(mat))>-1){
+					parking[buscarSitio()]=&listaVehiculosResidentes[numAux];
 					cout<<"Ha entrado el vehiculo Residente";
 				}
-				else if(comprobarListaOficial(mat)>-1){
-					parking[buscarSitio()]=&listaVehiculosOficiales[comprobarListaOficial(mat)];
+				else if((numAux=comprobarListaOficial(mat))>-1){
+					parking[buscarSitio()]=&listaVehiculosOficiales[numAux];
 					cout<<"Ha entrado el vehiculo Oficial ";
 				}
 				else{
@@ -734,8 +737,9 @@ void Aparcamiento::entrarVehiculo(char* mat){
 					parking[buscarSitio()]= aux;
 					cout<<"Ha entrado el vehiculo No residente";
 				}
-				cout<<" con la matricula "<<mat<<" en la plaza "<<comprobarListaParking(mat)<<endl<<endl;
-				parking[comprobarListaParking(mat)]->entrar();
+				numAux=comprobarListaParking(mat);
+				cout<<" con la matricula "<<mat<<" en la plaza "<<numAux<<endl<<endl;
+				parking[numAux]->entrar();
 				plazasOcupadas++;
 				if(plazasOcupadas == plazasTotales){
 					estadoActualParking= completo;
@@ -758,9 +762,10 @@ void Aparcamiento::entrarVehiculo(char* mat){
 
 void Aparcamiento::salirVehiculo(char* mat){
 	try{
-		if(comprobarListaParking(mat)>-1){
-			parking[comprobarListaParking(mat)]->salir();
-			parking[comprobarListaParking(mat)]=NULL;
+		int numAux;
+		if((numAux=comprobarListaParking(mat))>-1){
+			parking[numAux]->salir();
+			parking[numAux]=NULL;
 			cout<<"Ha salido el vehiculo "<<mat<<"\n"<<endl;
 			if(plazasOcupadas == plazasTotales){
 				estadoActualParking= libre;
@@ -864,8 +869,9 @@ void Aparcamiento::finDeMes(){
 
 void Aparcamiento::generarInforme(char* mat){
 	try{
-		if(comprobarListaResidente(mat)>-1){
-			listaVehiculosResidentes[comprobarListaResidente(mat)].generarInforme();
+		int numAux;
+		if((numAux=comprobarListaResidente(mat))>-1){
+			listaVehiculosResidentes[numAux].generarInforme();
 		}
 		else{
 			throw ExcepcionVehiculoNoValido();
@@ -877,24 +883,22 @@ void Aparcamiento::generarInforme(char* mat){
 
 void Aparcamiento::seleccionarPlazasParking(){
 
-	int num=0;
 	char aux[100];
 	do{
 		try{
 			 fflush(stdin);
 			 cout<<"Dame el numero de plazas: ";
 			 cin>>aux;
-			 num=atoi(aux);
+			 plazasTotales=atoi(aux);
 			 cout<<endl;
 
-			 if(num<1){
+			 if(plazasTotales<1){
 				 throw ExcepcionDatoNoValido();
 			 }
 		 }catch(ExcepcionDatoNoValido& ed){
 					cout<< ed.what();
 		 }
-	}while(num<1);
-	plazasTotales=num;
+	}while(plazasTotales<1);
 	delete parking;
 	parking= new Vehiculo*[plazasTotales];
 	for(int i=0;i<plazasTotales;i++){

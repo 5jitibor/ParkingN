@@ -9,12 +9,12 @@
 
 Oficial::Oficial(char* mat):Vehiculo(mat,(float)0.0){
 	numEstaciones=0;
-	estanciasTotales= new Estancia[100];
+	estanciasTotales= new Estancia[numEstaciones+1];
 }
 
 Oficial::Oficial(const Oficial &other):Vehiculo(other) {
 	numEstaciones=other.numEstaciones;
-	estanciasTotales= new Estancia[100];
+	estanciasTotales= new Estancia[numEstaciones+1];
 	for(int i=0;i<other.numEstaciones;i++){
 		estanciasTotales[i]=other.estanciasTotales[i];
 	}
@@ -52,12 +52,12 @@ void Oficial::finDeMes(){
 }
 
 ostream& operator<< (ostream& os, Oficial& a){
-	cout<<"Matricula: "<<a.matricula<<endl;
-	cout<<"Numero de estacionamientos: "<<a.numEstaciones<<endl;
+	os<<"Matricula: "<<a.matricula<<endl;
+	os<<"Numero de estacionamientos: "<<a.numEstaciones<<endl;
 	for(int i=0;i<a.numEstaciones;i++){
-		cout<<"Estacionamiento "<<i<<":"<<endl;
-		cout<<"\tEntrada:\n\t\tHora: "<<a.estanciasTotales[i].getInicio().getHora()<<"\n\t\tMinuto: "<<a.estanciasTotales[i].getInicio().getMinuto()<<endl;
-		cout<<"\tSalida:\n\t\tHora: "<<a.estanciasTotales[i].getFin().getHora()<<"\n\t\tMinuto: "<<a.estanciasTotales[i].getFin().getMinuto()<<endl;
+		os<<"Estacionamiento "<<i<<":"<<endl;
+		os<<"\tEntrada:\n\t\tHora: "<<a.estanciasTotales[i].getInicio().getHora()<<"\n\t\tMinuto: "<<a.estanciasTotales[i].getInicio().getMinuto()<<endl;
+		os<<"\tSalida:\n\t\tHora: "<<a.estanciasTotales[i].getFin().getHora()<<"\n\t\tMinuto: "<<a.estanciasTotales[i].getFin().getMinuto()<<endl;
 	}
 	return os;
 }
@@ -78,9 +78,10 @@ Oficial& Oficial::operator =(Oficial& other){
 	estanciaActual= other.estanciaActual;
 	if(numEstaciones!=other.numEstaciones){
 		numEstaciones=other.numEstaciones;
+		delete estanciasTotales;
+		estanciasTotales= new Estancia[numEstaciones+1];
 	}
-	delete estanciasTotales;
-	estanciasTotales= new Estancia[100];
+
 	for(int i=0;i<other.numEstaciones;i++){
 		estanciasTotales[i]=other.estanciasTotales[i];
 	}
