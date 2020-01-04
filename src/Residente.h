@@ -20,6 +20,8 @@ public:
 	void generarInforme();
 	Residente& operator =(Residente&);
 	friend ostream& operator<< (ostream& os, Residente& a);
+	friend ofstream& operator<< (ofstream& ofs, Residente& a);
+	friend ifstream& operator>> (ifstream& ifs, Residente& a);
 	Residente(const Residente &other);
 
 	int getTiempoTotal() const {

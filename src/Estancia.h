@@ -8,6 +8,10 @@
 #ifndef ESTANCIA_H_
 #define ESTANCIA_H_
 #include "Fecha.h"
+#include <stdlib.h>
+#include <iostream>
+#include <fstream>
+using namespace std;
 class Estancia {
 Fecha inicio;
 Fecha fin;
@@ -17,6 +21,8 @@ public:
 	void iniciarTiempo();
 	void pararTiempo();
 	int calcularTiempo();
+	friend ifstream& operator>> (ifstream& ifs, Estancia& a);
+	friend ofstream& operator<< (ofstream& ofs, Estancia& a);
 
 	const Fecha& getFin() const {
 		return fin;

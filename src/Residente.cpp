@@ -18,6 +18,7 @@ Residente::Residente(const Residente &other):Vehiculo(other) {
 void Residente::salir(){
 	estanciaActual.pararTiempo();
 	tiempoTotal+=estanciaActual.calcularTiempo();
+
 }
 
 Residente& Residente::operator =(Residente& other){
@@ -64,6 +65,23 @@ ostream& operator<< (ostream& os, Residente& a){
 	os<<"Tiempo: "<<a.tiempoTotal<<" minutos."<<endl;
 	os<<"Pago Total: "<<(a.tiempoTotal*a.precio)<<" euros"<<endl;
 	return os;
+}
+
+ofstream& operator<< (ofstream& ofs, Residente& a){
+	ofs<<a.matricula<<endl;
+	ofs<<a.tiempoTotal<<endl;
+	return ofs;
+}
+
+ifstream& operator>> (ifstream& ifs, Residente& a){
+	char aux[100];
+	ifs>> aux;
+	a.matricula= new char[strlen(aux)+1];
+	for(int j=0; j<=(int)strlen(aux);j++){
+		a.matricula[j]=aux[j];
+	}
+	ifs>> a.tiempoTotal;
+	return ifs;
 }
 
 void Residente::finDeMes(){

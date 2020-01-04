@@ -22,6 +22,8 @@ public:
 	virtual ~Oficial();
 	Oficial& operator =(Oficial&);
 	friend ostream& operator<< (ostream& os, Oficial& a);
+	friend ofstream& operator<< (ofstream& ofs, Oficial& a);
+	friend ifstream& operator>> (ifstream& ifs, Oficial& a);
 	const Estancia* getEstanciasTotales() const {
 		return estanciasTotales;
 	}

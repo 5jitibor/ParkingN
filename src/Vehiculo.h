@@ -9,6 +9,8 @@
 #define VEHICULO_H_
 #include "string.h"
 #include "Estancia.h"
+#include <stdlib.h>
+#include <fstream>
 #include <iostream>
 using namespace std;
 enum estadoVehiculo{
@@ -25,6 +27,8 @@ public:
 	void entrar();
 	Vehiculo(const Vehiculo &other);
 	virtual void salir()=0;
+	friend ifstream& operator>> (ifstream& ifs, Vehiculo* a);
+	friend ofstream& operator<< (ofstream& ofs, Vehiculo* a);
 	char* getMatricula() const {
 		return matricula;
 	}

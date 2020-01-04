@@ -62,6 +62,32 @@ ostream& operator<< (ostream& os, Oficial& a){
 	return os;
 }
 
+ofstream& operator<< (ofstream& ofs, Oficial& a){
+	ofs<<a.matricula<<endl;
+	ofs<<a.numEstaciones<<endl;
+	for(int i=0;i<a.numEstaciones;i++){
+		ofs<<a.estanciasTotales[i];
+	}
+	return ofs;
+}
+
+ifstream& operator>> (ifstream& ifs, Oficial& a){
+	char aux[100];
+	ifs>> aux;
+	a.matricula= new char[strlen(aux)+1];
+	for(int j=0; j<=(int)strlen(aux);j++){
+		a.matricula[j]=aux[j];
+	}
+	ifs>> a.numEstaciones;
+	delete a.estanciasTotales;
+	a.estanciasTotales= new Estancia[a.numEstaciones+1];
+	for(int i=0;i<a.numEstaciones;i++){
+		ifs>>a.estanciasTotales[i];
+	}
+	return ifs;
+}
+
+
 Oficial& Oficial::operator =(Oficial& other){
 	if(strlen(matricula)!=strlen(other.matricula)){
 		delete matricula;

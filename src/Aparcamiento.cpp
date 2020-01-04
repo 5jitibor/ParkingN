@@ -73,26 +73,15 @@ void Aparcamiento::introducirDocumentos(){
 	int auxNum;
 	char aux[100];
 	char* matri;
-	Estancia auxEst;
-	Estancia* auxListaEst;
-	Fecha auxFecha;
 	try{
 
 		ifstream fer("Residente.txt");
 		if(fer.good()){
-
 			fer>>numVehiculosResidentes;
 			delete listaVehiculosResidentes;
 			listaVehiculosResidentes = new Residente[numVehiculosResidentes+1];
 			for(int i=0;i<numVehiculosResidentes;i++){
-				fer>> aux;
-				matri= new char[strlen(aux)+1];
-				for(int j=0; j<=(int)strlen(aux);j++){
-					matri[j]=aux[j];
-				}
-				listaVehiculosResidentes[i].setMatricula(matri);
-				fer>> auxNum;
-				listaVehiculosResidentes[i].setTiempoTotal(auxNum);
+				fer>>listaVehiculosResidentes[i];
 			}
 		}
 		else{
@@ -110,29 +99,7 @@ void Aparcamiento::introducirDocumentos(){
 			delete listaVehiculosOficiales;
 			listaVehiculosOficiales = new Oficial[numVehiculosOficiales+1];
 			for(int i=0;i<numVehiculosOficiales;i++){
-						feo>> aux;
-						matri= new char[strlen(aux)+1];
-						for(int j=0; j<=(int)strlen(aux);j++){
-							matri[j]=aux[j];
-						}
-						listaVehiculosOficiales[i].setMatricula(matri);
-						feo>> auxNum;
-						listaVehiculosOficiales[i].setNumEstaciones(auxNum);
-						delete auxListaEst;
-						auxListaEst= new Estancia[listaVehiculosOficiales[i].getNumEstaciones()];
-						for(int j=0;j<listaVehiculosOficiales[i].getNumEstaciones();j++){
-							feo>>auxNum;
-							auxFecha.setHora(auxNum);
-							feo>>auxNum;
-							auxFecha.setMinuto(auxNum);
-							auxListaEst[j].setInicio(auxFecha);
-							feo>>auxNum;
-							auxFecha.setHora(auxNum);
-							feo>>auxNum;
-							auxFecha.setMinuto(auxNum);
-							auxListaEst[j].setFin(auxFecha);
-						}
-						listaVehiculosOficiales[i].setEstanciasTotales(auxListaEst);
+				feo>>listaVehiculosOficiales[i];
 			}
 		}
 		else{
@@ -143,6 +110,7 @@ void Aparcamiento::introducirDocumentos(){
 	}catch(ExcepcionNoExisteFichero& ed){
 			cout<< ed.what();
 	}
+
 	try{
 		int posicion;
 		ifstream fep("Parking.txt");
@@ -153,14 +121,15 @@ void Aparcamiento::introducirDocumentos(){
 			for(int i=0;i<plazasTotales;i++){
 					parking[i]=NULL;
 			}
+
 			fep>>plazasOcupadas;
 			for(int i=0;i<plazasOcupadas;i++){
+				fep>>auxNum;
 				fep>> aux;
 				matri= new char[strlen(aux)+1];
 				for(int j=0; j<=(int)strlen(aux);j++){
 					matri[j]=aux[j];
 				}
-				fep>>auxNum;
 				if((posicion=comprobarListaResidente(matri))>-1){
 					parking[auxNum]=&listaVehiculosResidentes[posicion];
 				}
@@ -171,12 +140,7 @@ void Aparcamiento::introducirDocumentos(){
 					NoResidente *auxNo= new NoResidente(matri);
 					parking[auxNum]= auxNo;
 				}
-				fep>>auxNum;
-				auxFecha.setHora(auxNum);
-				fep>>auxNum;
-				auxFecha.setHora(auxNum);
-				auxEst.setInicio(auxFecha);
-				(*parking[comprobarListaParking(matri)]).setEstanciaActual(auxEst);
+				fep>>parking[auxNum];
 			}
 		}
 		else{
@@ -193,35 +157,24 @@ void Aparcamiento::generarDocumentos(){
 	ofstream fsa("Residente.txt");
 	fsa<<numVehiculosResidentes<<endl;
 	for(int i=0;i<numVehiculosResidentes;i++){
-		fsa<<listaVehiculosResidentes[i].getMatricula()<<endl;
-		fsa<<listaVehiculosResidentes[i].getTiempoTotal()<<endl;
+		fsa<<listaVehiculosResidentes[i];
 	}
 	fsa.close();
 
 	ofstream fs("Oficial.txt");
 	fs<<numVehiculosOficiales<<endl;
 	for(int i=0;i<numVehiculosOficiales;i++){
-		fs<<listaVehiculosOficiales[i].getMatricula()<<endl;
-		fs<<listaVehiculosOficiales[i].getNumEstaciones()<<endl;
-		for(int j=0; j<listaVehiculosOficiales[i].getNumEstaciones(); j++){
-			fs<<listaVehiculosOficiales[i].getEstanciasTotales()[j].getInicio().getHora()<<endl;
-			fs<<listaVehiculosOficiales[i].getEstanciasTotales()[j].getInicio().getMinuto()<<endl;
-			fs<<listaVehiculosOficiales[i].getEstanciasTotales()[j].getFin().getHora()<<endl;
-			fs<<listaVehiculosOficiales[i].getEstanciasTotales()[j].getFin().getMinuto()<<endl;
-
-		}
+		fs<<listaVehiculosOficiales[i];
 	}
 	fs.close();
+
 	ofstream fsb("Parking.txt");
 	fsb<<plazasTotales<<endl;
 	fsb<<plazasOcupadas<<endl;
 	for(int i=0;i<plazasTotales;i++){
 		if(parking[i]!=NULL){
-			fsb<<(*parking[i]).getMatricula()<<endl;
 			fsb<<i<<endl;
-			fsb<<(*parking[i]).getEstanciaActual().getInicio().getHora()<<endl;
-			fsb<<(*parking[i]).getEstanciaActual().getInicio().getMinuto()<<endl;
-
+			fsb<<parking[i];
 		}
 	}
 	fsb.close();
