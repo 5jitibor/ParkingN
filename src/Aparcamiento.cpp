@@ -199,6 +199,7 @@ char* Aparcamiento::pedirMatricula(){
 	fflush(stdin);
 	cout<<"Dame la matricula: ";
 	cin>>nombres;
+	system("cls");
 	nombre=new char[strlen(nombres)+1];
 	for(int i=0;i<=(int)strlen(nombres);i++){
 		nombre[i]=nombres[i];
@@ -216,6 +217,7 @@ void Aparcamiento::menuPrincipal(){
 		cout<<"Que quieres hacer:\n1-Identificar Vehiculo\n2-Fin de mes\n3-Mostrar Listas\n4-Salir\nOpcion:";
 		cin>>elecciones;
 		cout<<"\n";
+		system("cls");
 		try{
 			switch(elecciones){
 				case '1':
@@ -249,6 +251,7 @@ void Aparcamiento::menuCargar(){
 			fflush(stdin);
 			cout<<"Quieres cargar desde fichero:\nSi (S) o No(N)\nOpcion:";
 			cin>>elecciones;
+			system("cls");
 			cout<<"\n";
 			try{
 				switch(elecciones){
@@ -283,6 +286,7 @@ void Aparcamiento::menuGuardar(){
 		fflush(stdin);
 		cout<<"Quieres guardar los cambios:\nSi (S) o No(N)\nOpcion:";
 		cin>>elecciones;
+		system("cls");
 		cout<<"\n";
 		try{
 			switch(elecciones){
@@ -315,6 +319,7 @@ void Aparcamiento::menuVer(){
 		fflush(stdin);
 		cout<<"Que quieres mostrar:\n1-Oficiales\n2-Residente\n3-Parking\n4-Volver\nOpcion:";
 		cin>>elecciones;
+		system("cls");
 		cout<<"\n";
 		try{
 			switch(elecciones){
@@ -374,6 +379,7 @@ void Aparcamiento::menuTipoVehiculo(char* mat){
 		fflush(stdin);
 		cout<<"Que quieres hacer:\n1-Gestion oficial\n2-Gestion residente\n3-Volver\nOpcion:";
 		cin>>elecciones;
+		system("cls");
 		cout<<"\n";
 		try{
 			switch(elecciones){
@@ -409,6 +415,7 @@ int Aparcamiento::menuOficial(char* mat){
 			fflush(stdin);
 			cout<<"Que quieres hacer como vehiculo oficial:\n1-Registrar\n2-Eliminar\n3-Volver\nOpcion:";
 			cin>>elecciones;
+			system("cls");
 			cout<<"\n";
 			try{
 				switch(elecciones){
@@ -443,6 +450,7 @@ int Aparcamiento::menuResidente(char* mat){
 			fflush(stdin);
 			cout<<"Que quieres hacer como vehiculo residente:\n1-Registrar\n2-Eliminar\n3-Volver\nOpcion:";
 			cin>>elecciones;
+			system("cls");
 			cout<<"\n";
 			try{
 				switch(elecciones){
@@ -648,6 +656,7 @@ void Aparcamiento::identificarMatricula(char* mat){
 		cout<<"Que quieres hacer con el vehiculo "<<mat<<endl<<"1-Gestion tipo de vehiculo\n2-Gestion Parking\n3-Generar Informe\n4-Volver\nOpcion: ";
 		cin>>eleccionar;
 		cout<<endl;
+
 		try{
 			switch(eleccionar){
 						case '1':
@@ -842,6 +851,7 @@ void Aparcamiento::seleccionarPlazasParking(){
 			 fflush(stdin);
 			 cout<<"Dame el numero de plazas: ";
 			 cin>>aux;
+			 system("cls");
 			 plazasTotales=atoi(aux);
 			 cout<<endl;
 
