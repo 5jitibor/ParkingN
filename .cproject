@@ -25,7 +25,7 @@
             			
             <storageModule moduleId="cdtBuildSystem" version="4.0.0">
                 				
-                <configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.mingw.exe.debug.2063169961" name="Debug" parent="cdt.managedbuild.config.gnu.mingw.exe.debug">
+                <configuration artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" id="cdt.managedbuild.config.gnu.mingw.exe.debug.2063169961" name="Debug" optionalBuildProperties="org.eclipse.cdt.docker.launcher.containerbuild.property.volumes=,org.eclipse.cdt.docker.launcher.containerbuild.property.selectedvolumes=" parent="cdt.managedbuild.config.gnu.mingw.exe.debug">
                     					
                     <folderInfo id="cdt.managedbuild.config.gnu.mingw.exe.debug.2063169961." name="/" resourcePath="">
                         						
@@ -66,6 +66,8 @@
                             <tool id="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.debug.1173204844" name="MinGW C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.mingw.exe.debug"/>
                             							
                             <tool id="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.debug.872483526" name="MinGW C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.mingw.exe.debug">
+                                								
+                                <option id="gnu.cpp.link.option.flags.84827052" superClass="gnu.cpp.link.option.flags" useByScannerDiscovery="false" value="-static-libgcc -static-libstdc++" valueType="string"/>
                                 								
                                 <inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.2037812676" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
                                     									
@@ -226,5 +228,7 @@
     </storageModule>
     	
     <storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+    	
+    <storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
     
 </cproject>
